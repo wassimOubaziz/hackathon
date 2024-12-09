@@ -25,26 +25,8 @@ const Login = () => {
     console.log('Login attempt:', formData);
   };
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { x: -20, opacity: 0 },
-    visible: {
-      x: 0,
-      opacity: 1
-    }
-  };
-
   const InputField = ({ icon: Icon, ...props }) => (
-    <motion.div variants={itemVariants} className="relative">
+    <div className="relative">
       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
         <Icon className={`h-5 w-5 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`} />
       </div>
@@ -54,7 +36,7 @@ const Login = () => {
           darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-gray-900'
         }`}
       />
-    </motion.div>
+    </div>
   );
 
   return (
@@ -93,56 +75,62 @@ const Login = () => {
         </div>
 
         <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
           className="text-center"
         >
-          <motion.h2 
-            variants={itemVariants}
-            className="text-3xl font-extrabold"
-          >
-            Welcome Back
-          </motion.h2>
-          <motion.p 
-            variants={itemVariants}
-            className={`mt-2 text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}
-          >
+          <h2 className="text-3xl font-extrabold">Welcome Back</h2>
+          <p className={`mt-2 text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
             Please sign in to your account
-          </motion.p>
+          </p>
         </motion.div>
 
         <motion.form
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
           className="mt-8 space-y-6"
           onSubmit={handleSubmit}
         >
           <div className="space-y-4">
-            <InputField
-              icon={FaUser}
-              id="username"
-              name="username"
-              type="text"
-              required
-              placeholder="Username"
-              value={formData.username}
-              onChange={handleChange}
-            />
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <FaUser className={`h-5 w-5 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`} />
+              </div>
+              <input
+                id="username"
+                name="username"
+                type="text"
+                required
+                placeholder="Username"
+                value={formData.username}
+                onChange={handleChange}
+                className={`pl-10 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 ${
+                  darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-gray-900'
+                }`}
+              />
+            </div>
 
-            <InputField
-              icon={FaLock}
-              id="password"
-              name="password"
-              type="password"
-              required
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
-            />
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <FaLock className={`h-5 w-5 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`} />
+              </div>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                required
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+                className={`pl-10 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 ${
+                  darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-gray-900'
+                }`}
+              />
+            </div>
 
-            <motion.div variants={itemVariants} className="flex items-center justify-between">
+            <div className="flex items-center justify-between">
               <div className="flex items-center">
                 <input
                   id="remember"
@@ -162,7 +150,7 @@ const Login = () => {
                   Forgot password?
                 </a>
               </div>
-            </motion.div>
+            </div>
           </div>
 
           <div className="space-y-4">
@@ -192,7 +180,9 @@ const Login = () => {
         </motion.form>
 
         <motion.p 
-          variants={itemVariants}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
           className="mt-4 text-center text-sm"
         >
           Don't have an account?{' '}

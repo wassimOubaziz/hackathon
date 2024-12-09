@@ -27,38 +27,6 @@ const Signup = () => {
     console.log('Signup attempt:', formData);
   };
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { x: -20, opacity: 0 },
-    visible: {
-      x: 0,
-      opacity: 1
-    }
-  };
-
-  const InputField = ({ icon: Icon, ...props }) => (
-    <motion.div variants={itemVariants} className="relative">
-      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-        <Icon className={`h-5 w-5 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`} />
-      </div>
-      <input
-        {...props}
-        className={`pl-10 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 ${
-          darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-gray-900'
-        }`}
-      />
-    </motion.div>
-  );
-
   return (
     <div className={`min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'}`}>
       <motion.div
@@ -95,78 +63,98 @@ const Signup = () => {
         </div>
 
         <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
           className="text-center"
         >
-          <motion.h2 
-            variants={itemVariants}
-            className="text-3xl font-extrabold"
-          >
-            Create Account
-          </motion.h2>
-          <motion.p 
-            variants={itemVariants}
-            className={`mt-2 text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}
-          >
+          <h2 className="text-3xl font-extrabold">Create Account</h2>
+          <p className={`mt-2 text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
             Join our community today!
-          </motion.p>
+          </p>
         </motion.div>
 
         <motion.form
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
           className="mt-8 space-y-6"
           onSubmit={handleSubmit}
         >
           <div className="space-y-4">
-            <InputField
-              icon={FaUser}
-              id="fullName"
-              name="fullName"
-              type="text"
-              required
-              placeholder="Full Name"
-              value={formData.fullName}
-              onChange={handleChange}
-            />
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <FaUser className={`h-5 w-5 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`} />
+              </div>
+              <input
+                id="fullName"
+                name="fullName"
+                type="text"
+                required
+                placeholder="Full Name"
+                value={formData.fullName}
+                onChange={handleChange}
+                className={`pl-10 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 ${
+                  darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-gray-900'
+                }`}
+              />
+            </div>
 
-            <InputField
-              icon={FaEnvelope}
-              id="email"
-              name="email"
-              type="email"
-              required
-              placeholder="Email Address"
-              value={formData.email}
-              onChange={handleChange}
-            />
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <FaEnvelope className={`h-5 w-5 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`} />
+              </div>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                placeholder="Email Address"
+                value={formData.email}
+                onChange={handleChange}
+                className={`pl-10 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 ${
+                  darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-gray-900'
+                }`}
+              />
+            </div>
 
-            <InputField
-              icon={FaLock}
-              id="password"
-              name="password"
-              type="password"
-              required
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
-            />
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <FaLock className={`h-5 w-5 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`} />
+              </div>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                required
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+                className={`pl-10 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 ${
+                  darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-gray-900'
+                }`}
+              />
+            </div>
 
-            <InputField
-              icon={FaLock}
-              id="confirmPassword"
-              name="confirmPassword"
-              type="password"
-              required
-              placeholder="Confirm Password"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-            />
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <FaLock className={`h-5 w-5 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`} />
+              </div>
+              <input
+                id="confirmPassword"
+                name="confirmPassword"
+                type="password"
+                required
+                placeholder="Confirm Password"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                className={`pl-10 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 ${
+                  darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-gray-900'
+                }`}
+              />
+            </div>
 
-            <motion.div variants={itemVariants} className="flex items-center">
+            <div className="flex items-center">
               <input
                 id="terms"
                 name="terms"
@@ -178,7 +166,7 @@ const Signup = () => {
               <label htmlFor="terms" className="ml-2 block text-sm">
                 I agree to the Terms and Conditions
               </label>
-            </motion.div>
+            </div>
           </div>
 
           <div className="space-y-4">
@@ -208,7 +196,9 @@ const Signup = () => {
         </motion.form>
 
         <motion.p 
-          variants={itemVariants}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
           className="mt-4 text-center text-sm"
         >
           Already have an account?{' '}
