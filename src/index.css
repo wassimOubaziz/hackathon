@@ -1,6 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+:root {
+  /* Primary and Secondary Colors */
+  --primary-blue: #3b82f6; /* blue-500 */
+  --secondary-orange: #f97316; /* orange-500 */
+
+  /* Background Colors */
+  --background-light: #eff6ff; /* blue-50 */
+  --background-light-to: #dbeafe; /* blue-100 */
+  --background-dark: #1f2937; /* gray-800 */
+  --background-dark-to: #111827; /* gray-900 */
+
+  /* Text Colors */
+  --text-light: #1f2937; /* gray-800 */
+  --text-dark: #f3f4f6; /* gray-100 */
+
+  /* Card Background Colors */
+  --card-background-light: #ffffff;
+  --card-background-dark: #374151; /* gray-700 */
+}
 
 @layer base {
   body {
