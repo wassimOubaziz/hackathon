@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
-import { FaGoogle, FaMoon, FaSun, FaUser, FaLock } from 'react-icons/fa';
+import { FaGoogle, FaMoon, FaSun, FaUser, FaEnvelope, FaLock } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
-const Login = () => {
+const Signup = () => {
   const { darkMode, toggleTheme } = useTheme();
   const [formData, setFormData] = useState({
-    username: '',
+    fullName: '',
+    email: '',
     password: '',
-    remember: false,
+    confirmPassword: '',
+    terms: false,
   });
 
   const handleChange = (e) => {
@@ -22,7 +24,7 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Login attempt:', formData);
+    console.log('Signup attempt:', formData);
   };
 
   const containerVariants = {
@@ -102,13 +104,13 @@ const Login = () => {
             variants={itemVariants}
             className="text-3xl font-extrabold"
           >
-            Welcome Back
+            Create Account
           </motion.h2>
           <motion.p 
             variants={itemVariants}
             className={`mt-2 text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}
           >
-            Please sign in to your account
+            Join our community today!
           </motion.p>
         </motion.div>
 
@@ -122,12 +124,23 @@ const Login = () => {
           <div className="space-y-4">
             <InputField
               icon={FaUser}
-              id="username"
-              name="username"
+              id="fullName"
+              name="fullName"
               type="text"
               required
-              placeholder="Username"
-              value={formData.username}
+              placeholder="Full Name"
+              value={formData.fullName}
+              onChange={handleChange}
+            />
+
+            <InputField
+              icon={FaEnvelope}
+              id="email"
+              name="email"
+              type="email"
+              required
+              placeholder="Email Address"
+              value={formData.email}
               onChange={handleChange}
             />
 
@@ -142,26 +155,29 @@ const Login = () => {
               onChange={handleChange}
             />
 
-            <motion.div variants={itemVariants} className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  id="remember"
-                  name="remember"
-                  type="checkbox"
-                  checked={formData.remember}
-                  onChange={handleChange}
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                />
-                <label htmlFor="remember" className="ml-2 block text-sm">
-                  Remember me
-                </label>
-              </div>
+            <InputField
+              icon={FaLock}
+              id="confirmPassword"
+              name="confirmPassword"
+              type="password"
+              required
+              placeholder="Confirm Password"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+            />
 
-              <div className="text-sm">
-                <a href="#" className="font-medium text-blue-600 hover:text-blue-500">
-                  Forgot password?
-                </a>
-              </div>
+            <motion.div variants={itemVariants} className="flex items-center">
+              <input
+                id="terms"
+                name="terms"
+                type="checkbox"
+                checked={formData.terms}
+                onChange={handleChange}
+                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+              />
+              <label htmlFor="terms" className="ml-2 block text-sm">
+                I agree to the Terms and Conditions
+              </label>
             </motion.div>
           </div>
 
@@ -172,7 +188,7 @@ const Login = () => {
               type="submit"
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
-              Sign in
+              Sign Up
             </motion.button>
 
             <motion.button
@@ -186,7 +202,7 @@ const Login = () => {
               }`}
             >
               <FaGoogle className="mr-2 h-5 w-5 text-red-500" />
-              Sign in with Google
+              Sign up with Google
             </motion.button>
           </div>
         </motion.form>
@@ -195,9 +211,9 @@ const Login = () => {
           variants={itemVariants}
           className="mt-4 text-center text-sm"
         >
-          Don't have an account?{' '}
-          <Link to="/signup" className="font-medium text-blue-600 hover:text-blue-500">
-            Sign Up
+          Already have an account?{' '}
+          <Link to="/" className="font-medium text-blue-600 hover:text-blue-500">
+            Login
           </Link>
         </motion.p>
       </motion.div>
@@ -205,4 +221,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;
