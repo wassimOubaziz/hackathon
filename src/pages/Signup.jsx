@@ -8,6 +8,9 @@ import {
   FaUser,
   FaEnvelope,
   FaLock,
+  FaIdCard,
+  FaUserAlt,
+  FaUserAstronaut,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
@@ -18,6 +21,8 @@ const Signup = () => {
     email: "",
     password: "",
     confirmPassword: "",
+    socialSecurityNumber: "",
+    role: "",
     terms: false,
   });
 
@@ -215,6 +220,57 @@ const Signup = () => {
               />
             </div>
 
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <FaIdCard
+                  className={`h-4 w-4 ${
+                    darkMode ? "text-gray-400" : "text-gray-500"
+                  }`}
+                />
+              </div>
+              <input
+                id="socialSecurityNumber"
+                name="socialSecurityNumber"
+                type="number"
+                required
+                placeholder="Social Security Number"
+                value={formData.socialSecurityNumber}
+                onChange={handleChange}
+                className={`pl-10 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 ${
+                  darkMode
+                    ? "bg-gray-700 border-gray-600 text-white"
+                    : "bg-white border-gray-300 text-gray-900"
+                }`}
+              />
+            </div>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                {/* You can use any other icon here */}
+                <FaUserAstronaut
+                  className={`h-4 w-4 ${
+                    darkMode ? "text-gray-400" : "text-gray-500"
+                  }`}
+                />
+              </div>
+              <select
+                id="role"
+                name="role"
+                required
+                value={formData.role}
+                onChange={handleChange}
+                className={`pl-10 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 ${
+                  darkMode
+                    ? "bg-gray-700 border-gray-600 text-white"
+                    : "bg-white border-gray-300 text-gray-900"
+                }`}
+              >
+                <option value="">Select a Role</option>
+                <option value="CEO">CEO</option>
+                <option value="HR">HR</option>
+                <option value="Comptabiliter">Comptabiliter</option>
+                <option value="Employee">Employee</option>
+              </select>
+            </div>
             <div className="flex items-center">
               <input
                 id="terms"
