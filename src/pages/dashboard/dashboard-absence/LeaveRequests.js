@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { FaCheck, FaTimes } from "react-icons/fa";
+import axios from "../../../axios";
+import React, { useEffect, useState } from "react";
 
 const LeaveRequests = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState(null);
-
+  const [leaveRequests, setLeaveRequests] = useState([]);
   const handleNameClick = (request) => {
     setSelectedRequest(request);
     setShowPopup(true);
@@ -27,32 +27,13 @@ const LeaveRequests = () => {
     // Add logic for rejecting the request
   };
 
-  const leaveRequests = [
-    {
-      id: 1,
-      name: "John Doe",
-      leaveType: "Sick Leave",
-      startDate: "2024-12-01",
-      endDate: "2024-12-05",
-      status: "Pending",
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      leaveType: "Vacation Leave",
-      startDate: "2024-12-10",
-      endDate: "2024-12-15",
-      status: "Pending",
-    },
-    {
-      id: 3,
-      name: "Mike Johnson",
-      leaveType: "Remote Work",
-      startDate: "2024-12-12",
-      endDate: "2024-12-12",
-      status: "Pending",
-    },
-  ];
+  useEffect(()=>{
+    axios.get('/hr/list_others_leave/', {
+      headers: {
+        'Authorization': 'Token ' + localStorage.getItem('authToken')
+      }
+    }).then(e=> setLeaveRequests(e?.data || []))
+  }, [])
 
   return (
     <div>

@@ -1,20 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FaUsers, FaTrash, FaUserTag, FaSearch } from "react-icons/fa";
 import { useTheme } from "../../../context/ThemeContext"; // Assuming you have this hook
+import axios from "../../../axios";
 
 const UserManagement = () => {
   const { darkMode } = useTheme(); // Get darkMode state from the context
-  const [users, setUsers] = useState([
-    { id: 1, email: "john.doe@company.com", role: "worker", status: "active" },
-    { id: 2, email: "hr.manager@company.com", role: "hr", status: "active" },
-    {
-      id: 3,
-      email: "accountant@company.com",
-      role: "accountant",
-      status: "pending",
-    },
-  ]);
+  const [users, setUsers] = useState([]);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [filterRole, setFilterRole] = useState("");
@@ -27,10 +19,24 @@ const UserManagement = () => {
     { value: "worker", label: "Worker" },
   ];
 
+  useEffect(()=>{
+    axios.get('/hr/worker/', {
+      headers: {
+        'Authorization': 'Token ' + localStorage.getItem('authToken')
+      }
+    }).then((e)=>{
+      setUsers(e.data)
+    })
+  }, [])
+
   const handleDelete = async (userId) => {
     try {
-      console.log("Deleting user:", userId);
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      axios.post('/hr/fire_user/', {id: userId},{
+        headers: {
+          'Authorization': 'Token ' + localStorage.getItem('authToken')
+        }
+      })
+      
       setUsers(users.filter((user) => user.id !== userId));
       setDeleteConfirm(null);
     } catch (error) {
@@ -178,24 +184,24 @@ const UserManagement = () => {
                   darkMode ? "divide-gray-700" : "divide-gray-200"
                 }`}
               >
-                {filteredUsers.map((user) => (
-                  <tr key={user.id}>
+                {filteredUsers?.map((user) => (
+                  <tr key={user?.id}>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {user.email}
+                      {user?.email}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span
                         className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getRoleBadgeColor(
-                          user.role
+                          user?.role
                         )}`}
                       >
-                        {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
+                        {user?.role?.charAt(0)?.toUpperCase() + user?.role.slice(1)}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span
                         className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                          user.status === "active"
+                          user?.status === "active"
                             ? `${
                                 darkMode
                                   ? "bg-green-900 text-green-200"
@@ -208,8 +214,8 @@ const UserManagement = () => {
                               }`
                         }`}
                       >
-                        {user.status.charAt(0).toUpperCase() +
-                          user.status.slice(1)}
+                        {user?.status?.charAt(0)?.toUpperCase() +
+                          user?.status?.slice(1)}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right">

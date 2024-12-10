@@ -20,10 +20,8 @@ const Dashboard = () => {
   const navigate = useNavigate();
   // This would typically come from your authentication context
   const companyName = localStorage.getItem("companyName");
-  console.log("Company Name:", companyName);
   const userRole = localStorage.getItem("userRole");
-  console.log("userRole:", userRole);
-  if (companyName === "" && userRole !== "ceo") {
+  if (!Boolean(companyName) && userRole !== "ceo") {
     navigate("/login");
     localStorage.removeItem("authToken");
     localStorage.removeItem("userRole");

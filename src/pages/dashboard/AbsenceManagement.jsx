@@ -5,6 +5,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import { FaCheck, FaEye, FaTimes } from "react-icons/fa";
 import { useTheme } from "../../context/ThemeContext"; // Assuming you have a ThemeContext
 import PathBar from "../../components/PathBar";
+import axios from "../../axios";
 
 const AbsenceManagement = () => {
   const location = useLocation();
@@ -31,6 +32,16 @@ const AbsenceManagement = () => {
   const viewAbsences = () => {
     setShowPopup(true);
   };
+
+
+  const handleSave = ()=>{
+    axios.post("/hr/set_min/", {min: minWorkers}, {
+      headers: {
+        'Authorization': 'Token ' + localStorage.getItem('authToken')
+      }
+    })
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -207,6 +218,7 @@ const AbsenceManagement = () => {
                     ? "bg-gray-700 text-gray-300 hover:bg-gray-600 focus:ring-gray-500"
                     : "bg-gray-200 text-gray-700 hover:bg-gray-300 focus:ring-gray-400"
                 } focus:outline-none focus:ring-2 transition duration-200`}
+                onClick={()=> {handleSave()}}
               >
                 Save
               </button>
