@@ -13,7 +13,7 @@ const PayrollTracking = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Payroll Summary Card */}
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-          <h2 className="text-lg font-semibold mb-4 text-gray-800">Payroll Summary</h2>
+          <h2 className="text-lg font-semibold mb-4">Payroll Summary</h2>
           <div className="space-y-4">
             <div className="flex justify-between items-center">
               <span>Total Payroll</span>
@@ -32,7 +32,7 @@ const PayrollTracking = () => {
 
         {/* Recent Payments Card */}
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-          <h2 className="text-lg font-semibold mb-4 text-gray-800">Recent Payments</h2>
+          <h2 className="text-lg font-semibold mb-4">Recent Payments</h2>
           <div className="space-y-4">
             {/* Sample payment entries */}
             <div className="border-l-4 border-green-500 pl-4">
@@ -50,7 +50,7 @@ const PayrollTracking = () => {
 
         {/* Upcoming Payments Card */}
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-          <h2 className="text-lg font-semibold mb-4 text-gray-800">Upcoming Payments</h2>
+          <h2 className="text-lg font-semibold mb-4">Upcoming Payments</h2>
           <div className="space-y-4">
             <div className="flex justify-between items-center">
               <span>Next Payment Date</span>

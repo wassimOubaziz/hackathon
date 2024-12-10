@@ -13,7 +13,7 @@ const AccountingReports = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Financial Summary Card */}
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-          <h2 className="text-lg font-semibold mb-4 text-gray-800">Financial Summary</h2>
+          <h2 className="text-lg font-semibold mb-4">Financial Summary</h2>
           <div className="space-y-4">
             <div className="flex justify-between items-center">
               <span>Revenue</span>
@@ -32,7 +32,7 @@ const AccountingReports = () => {
 
         {/* Expense Breakdown Card */}
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-          <h2 className="text-lg font-semibold mb-4 text-gray-800">Expense Breakdown</h2>
+          <h2 className="text-lg font-semibold mb-4">Expense Breakdown</h2>
           <div className="space-y-4">
             <div className="flex justify-between items-center">
               <span>Payroll</span>
@@ -51,7 +51,7 @@ const AccountingReports = () => {
 
         {/* Recent Transactions Card */}
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-          <h2 className="text-lg font-semibold mb-4 text-gray-800">Recent Transactions</h2>
+          <h2 className="text-lg font-semibold mb-4">Recent Transactions</h2>
           <div className="space-y-4">
             {/* Sample transactions */}
             <div className="border-l-4 border-blue-500 pl-4">
