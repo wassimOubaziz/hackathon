@@ -74,7 +74,7 @@ const Navbar = ({ role }) => {
                 initial={{ rotate: -180 }}
                 animate={{ rotate: 0 }}
                 transition={{ duration: 0.5 }}
-                src="./assets/nexhrd.png"
+                src="/assets/nexhrd.png"
                 alt="BlueBR"
                 className="h-8 w-auto"
               />
@@ -85,7 +85,7 @@ const Navbar = ({ role }) => {
                 initial={{ rotate: -180 }}
                 animate={{ rotate: 0 }}
                 transition={{ duration: 0.5 }}
-                src="./assets/nexhrl.png"
+                src="/assets/nexhrl.png"
                 alt="BlueBird HR"
                 className="h-8 w-auto"
               />

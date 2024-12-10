@@ -2,41 +2,43 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Link, useOutlet } from "react-router";
 import { Outlet, useLocation } from "react-router-dom";
-import { FaCheck, FaEye } from "react-icons/fa";
+import { FaCheck, FaEye, FaTimes } from "react-icons/fa";
+import { useTheme } from "../../context/ThemeContext"; // Assuming you have a ThemeContext
 import PathBar from "../../components/PathBar";
 
 const AbsenceManagement = () => {
   const location = useLocation();
   const outlet = useOutlet();
+  const { darkMode } = useTheme(); // Accessing dark mode from context
 
   // State for attendance data
   const [attendanceData, setAttendanceData] = useState(null);
 
   // State for minimum workers
   const [minWorkers, setMinWorkers] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
 
   const checkAttendance = () => {
     // Simulate server request
-    setTimeout(() => {
-      const dataFromServer = [
-        { name: "John Doe", status: "Absent", date: "2024-12-10" },
-        { name: "Sarah", status: "Absent", date: "2024-12-10" },
-      ]; // Example response
-      setAttendanceData(dataFromServer); // Update state with server data
-    }, 1000); // Simulated delay
+
+    const dataFromServer = [
+      { name: "John Doe", status: "Absent", date: "2024-12-10" },
+      { name: "Sarah", status: "Absent", date: "2024-12-10" },
+    ]; // Example response
+    setAttendanceData(dataFromServer); // Update state with server data
   };
 
   const viewAbsences = () => {
-    alert("Redirecting to absence details..."); // Placeholder action
-    // You can navigate to another page or show details here
+    setShowPopup(true);
   };
-
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="p-6"
+      className={`p-6 ${
+        darkMode ? "bg-gray-900 text-gray-100" : "bg-gray-50 text-gray-900"
+      }`}
     >
       <PathBar title="Absence & Leave Management" backLink="/dashboard" />
 
@@ -48,21 +50,41 @@ const AbsenceManagement = () => {
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Leave Request Card */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+            <div
+              className={`rounded-lg shadow p-6 ${
+                darkMode ? "bg-gray-800" : "bg-white"
+              }`}
+            >
               <Link to={"/dashboard/absence/leaverequests"}>
-                <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">
+                <h2
+                  className={`text-lg font-semibold mb-4 ${
+                    darkMode ? "text-gray-300" : "text-gray-700"
+                  }`}
+                >
                   Leave Requests
                 </h2>
               </Link>
               <div className="space-y-4">
                 <div className="border-l-4 border-blue-500 pl-4">
-                  <p className="font-medium text-gray-900 dark:text-gray-100">
+                  <p
+                    className={`font-medium ${
+                      darkMode ? "text-gray-100" : "text-gray-900"
+                    }`}
+                  >
                     John Doe
                   </p>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                  <p
+                    className={`text-sm ${
+                      darkMode ? "text-gray-400" : "text-gray-600"
+                    }`}
+                  >
                     Vacation Leave
                   </p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                  <p
+                    className={`text-sm ${
+                      darkMode ? "text-gray-400" : "text-gray-500"
+                    }`}
+                  >
                     Dec 20 - Dec 25
                   </p>
                 </div>
@@ -70,24 +92,48 @@ const AbsenceManagement = () => {
             </div>
 
             {/* Statistics Card */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-              <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">
+            <div
+              className={`rounded-lg shadow p-6 ${
+                darkMode ? "bg-gray-800" : "bg-white"
+              }`}
+            >
+              <h2
+                className={`text-lg font-semibold mb-4 ${
+                  darkMode ? "text-gray-300" : "text-gray-700"
+                }`}
+              >
                 Leave Statistics
               </h2>
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-700 dark:text-gray-300">
+                  <span
+                    className={`${
+                      darkMode ? "text-gray-300" : "text-gray-700"
+                    }`}
+                  >
                     Vacation Days Left
                   </span>
-                  <span className="font-bold text-gray-900 dark:text-gray-100">
+                  <span
+                    className={`font-bold ${
+                      darkMode ? "text-gray-100" : "text-gray-900"
+                    }`}
+                  >
                     15 days
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-700 dark:text-gray-300">
+                  <span
+                    className={`${
+                      darkMode ? "text-gray-300" : "text-gray-700"
+                    }`}
+                  >
                     Sick Leave Left
                   </span>
-                  <span className="font-bold text-gray-900 dark:text-gray-100">
+                  <span
+                    className={`font-bold ${
+                      darkMode ? "text-gray-100" : "text-gray-900"
+                    }`}
+                  >
                     7 days
                   </span>
                 </div>
@@ -95,53 +141,82 @@ const AbsenceManagement = () => {
             </div>
 
             {/* Calendar Card */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-              <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">
+            <div
+              className={`rounded-lg shadow p-6 ${
+                darkMode ? "bg-gray-800" : "bg-white"
+              }`}
+            >
+              <h2
+                className={`text-lg font-semibold mb-4 ${
+                  darkMode ? "text-gray-300" : "text-gray-700"
+                }`}
+              >
                 See Todays Absences
               </h2>
               <div className="space-y-2">
-                <p className="text-sm text-gray-600 dark:text-gray-400">
+                <p
+                  className={`text-sm ${
+                    darkMode ? "text-gray-400" : "text-gray-600"
+                  }`}
+                >
                   Current Team Absences
                 </p>
-                <div className="text-sm">
+                <div
+                  className={`text-sm ${
+                    darkMode ? "text-gray-300" : "text-gray-900"
+                  }`}
+                >
                   <p className="py-1">Sarah - Out until Dec 15</p>
                   <p className="py-1">Mike - Remote on Dec 16</p>
                 </div>
               </div>
             </div>
-
-            {/* Minimum Workers Input */}
-            <div className="w-full p-4">
-              <label
-                htmlFor="min-workers"
-                className="block text-lg font-bold text-gray-700 dark:text-gray-300 mb-2"
+          </div>
+          <div
+            className={`rounded-lg shadow mt-6 p-6 ${
+              darkMode ? "bg-gray-800" : "bg-white"
+            }`}
+          >
+            <label
+              htmlFor="min-workers"
+              className={`block text-lg font-bold mb-2 ${
+                darkMode ? "text-gray-300" : "text-gray-700"
+              }`}
+            >
+              Min number of workers
+            </label>
+            <div className="flex items-center space-x-4">
+              <input
+                type="number"
+                id="min-workers"
+                value={minWorkers}
+                onChange={(e) => setMinWorkers(e.target.value)}
+                className={`flex-grow p-2 text-base rounded-md border ${
+                  darkMode
+                    ? "border-gray-700 bg-gray-900 text-gray-300"
+                    : "border-gray-300 bg-white text-gray-700"
+                } focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200`}
+                placeholder="Enter minimum workers"
+              />
+              <button className="px-4 py-2 text-sm font-semibold text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200">
+                Edit
+              </button>
+              <button
+                className={`px-4 py-2 text-sm font-semibold rounded-md ${
+                  darkMode
+                    ? "bg-gray-700 text-gray-300 hover:bg-gray-600 focus:ring-gray-500"
+                    : "bg-gray-200 text-gray-700 hover:bg-gray-300 focus:ring-gray-400"
+                } focus:outline-none focus:ring-2 transition duration-200`}
               >
-                Min number of workers
-              </label>
-              <div className="flex items-center space-x-4">
-                <input
-                  type="number"
-                  id="min-workers"
-                  value={minWorkers}
-                  onChange={(e) => setMinWorkers(e.target.value)}
-                  className="flex-grow p-2 text-base rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition duration-200"
-                  placeholder="Enter minimum workers"
-                />
-                <button className="px-4 py-2 text-sm font-semibold text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-blue-300 transition duration-200">
-                  Edit
-                </button>
-                <button className="px-4 py-2 text-sm font-semibold text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 dark:focus:ring-gray-500 transition duration-200">
-                  Save
-                </button>
-              </div>
+                Save
+              </button>
             </div>
           </div>
-
           {/* Check Attendance Button */}
           <div className="mt-8 flex flex-col items-center space-y-4">
             <button
               onClick={checkAttendance}
-              className="px-6 py-3 text-lg font-semibold text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 dark:focus:ring-green-300 transition duration-200"
+              className="px-6 py-3 text-lg font-semibold text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 transition duration-200"
             >
               <FaCheck className="inline mr-2" />
               Check Attendance
@@ -150,7 +225,7 @@ const AbsenceManagement = () => {
             {attendanceData && attendanceData.length > 0 && (
               <button
                 onClick={viewAbsences}
-                className="px-6 py-3 text-lg font-semibold text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-blue-300 transition duration-200"
+                className="px-6 py-3 text-lg font-semibold text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200"
               >
                 <FaEye className="inline mr-2" />
                 View Absences
@@ -158,6 +233,48 @@ const AbsenceManagement = () => {
             )}
           </div>
         </>
+      )}
+      {showPopup && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div
+            className={`w-full max-w-md p-6 rounded-lg shadow-lg ${
+              darkMode ? "bg-gray-800 text-gray-100" : "bg-white text-gray-900"
+            }`}
+          >
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-lg font-semibold">Absent Users</h2>
+              <button
+                onClick={() => setShowPopup(false)}
+                className="text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+              >
+                <FaTimes />
+              </button>
+            </div>
+            <div className="space-y-4">
+              {attendanceData?.map((user, index) => (
+                <div
+                  key={index}
+                  className={`flex justify-between items-center p-3 rounded ${
+                    darkMode
+                      ? "bg-gray-700 text-gray-300"
+                      : "bg-gray-100 text-gray-800"
+                  }`}
+                >
+                  <span>{user.name}</span>
+                  <span className="text-sm text-gray-500">{user.date}</span>
+                </div>
+              ))}
+            </div>
+            <div className="mt-4 text-right">
+              <button
+                onClick={() => setShowPopup(false)}
+                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </motion.div>
   );
