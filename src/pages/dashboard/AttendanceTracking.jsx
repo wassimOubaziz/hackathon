@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { FaCamera, FaCheck, FaTimes } from 'react-icons/fa';
-import { Html5QrcodeScanner } from 'html5-qrcode';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { FaCamera, FaCheck, FaTimes } from "react-icons/fa";
+import { Html5QrcodeScanner } from "html5-qrcode";
+import axios from "axios";
 
 const AttendanceTracking = () => {
   const [scanning, setScanning] = useState(false);
@@ -14,7 +14,7 @@ const AttendanceTracking = () => {
     let scanner;
 
     if (scanning) {
-      scanner = new Html5QrcodeScanner('reader', {
+      scanner = new Html5QrcodeScanner("reader", {
         qrbox: {
           width: 250,
           height: 250,
@@ -36,23 +36,25 @@ const AttendanceTracking = () => {
     try {
       setScanning(false);
       setScanResult(decodedText);
-      
+
       // Replace with your actual API endpoint
-      const response = await axios.post('/api/attendance', {
+      const response = await axios.post("/api/attendance", {
         qrCode: decodedText,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
-      
+
       setScanned(true);
       setError(null);
     } catch (err) {
-      setError('Failed to mark attendance. Please try again.');
-      console.error('Attendance marking failed:', err);
+      setError("Failed to mark attendance. Please try again.");
+      console.error("Attendance marking failed:", err);
     }
   };
 
   const onScanError = (errorMessage) => {
-    setError('Error accessing camera. Please make sure you have granted camera permissions.');
+    setError(
+      "Error accessing camera. Please make sure you have granted camera permissions."
+    );
     console.error(errorMessage);
   };
 
@@ -75,7 +77,9 @@ const AttendanceTracking = () => {
       className="p-8"
     >
       <div className="max-w-md mx-auto">
-        <h1 className="text-3xl font-bold mb-8 text-center">Scan QR Code for Attendance</h1>
+        <h1 className="text-3xl font-bold mb-8 text-center">
+          Scan QR Code for Attendance
+        </h1>
 
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
           {!scanning && !scanned && (
