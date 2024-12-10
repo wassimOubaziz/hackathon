@@ -54,10 +54,10 @@ const AttendanceTracking = () => {
   };
 
   const onScanError = (errorMessage) => {
-    setError(
-      "Error accessing camera. Please make sure you have granted camera permissions."
-    );
-    console.error(errorMessage);
+    // setError(
+    //   "Error accessing camera. Please make sure you have granted camera permissions."
+    // );
+    // console.error(errorMessage);
   };
 
   const startScanning = () => {
