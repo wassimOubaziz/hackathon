@@ -11,7 +11,9 @@ import {
   FaCheck,
   FaUser,
   FaHistory,
-  FaCalendarPlus
+  FaCalendarPlus,
+  FaUserPlus,
+  FaUsers,
 } from "react-icons/fa";
 import { useTheme } from "../context/ThemeContext";
 import { motion } from "framer-motion";
@@ -31,6 +33,19 @@ const Navbar = ({ role }) => {
   };
 
   const navItems = [
+    // Admin-specific items
+    {
+      title: "Add User",
+      path: "/dashboard/admin/add-user",
+      icon: <FaUserPlus />,
+      allowedRoles: ["hr"],
+    },
+    {
+      title: "Manage Users",
+      path: "/dashboard/admin/users",
+      icon: <FaUsers />,
+      allowedRoles: ["hr"],
+    },
     // Worker-specific items
     {
       title: "My Profile",
