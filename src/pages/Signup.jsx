@@ -9,19 +9,20 @@ import {
   FaEnvelope,
   FaLock,
   FaIdCard,
-  FaUserAlt,
   FaUserAstronaut,
+  FaPhone,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Signup = () => {
   const { darkMode, toggleTheme } = useTheme();
   const [formData, setFormData] = useState({
-    fullName: "",
+    first_name: "",
+    last_name: "",
     email: "",
     password: "",
-    confirmPassword: "",
-    socialSecurityNumber: "",
+    social_securite_number: "",
     role: "",
     terms: false,
   });
@@ -37,6 +38,7 @@ const Signup = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Signup attempt:", formData);
+    axios.post("/signup", formData).then();
   };
 
   return (
@@ -124,28 +126,56 @@ const Signup = () => {
           onSubmit={handleSubmit}
         >
           <div className="space-y-4">
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <FaUser
-                  className={`h-4 w-4 ${
-                    darkMode ? "text-gray-400" : "text-gray-500"
+            <div className="flex space-x-4">
+              {/* First Name Input */}
+              <div className="relative w-1/2">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <FaUser
+                    className={`h-4 w-4 ${
+                      darkMode ? "text-gray-400" : "text-gray-500"
+                    }`}
+                  />
+                </div>
+                <input
+                  id="firstName"
+                  name="firstName"
+                  type="text"
+                  required
+                  placeholder="First Name"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  className={`pl-10 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 ${
+                    darkMode
+                      ? "bg-gray-700 border-gray-600 text-white"
+                      : "bg-white border-gray-300 text-gray-900"
                   }`}
                 />
               </div>
-              <input
-                id="fullName"
-                name="fullName"
-                type="text"
-                required
-                placeholder="Full Name"
-                value={formData.fullName}
-                onChange={handleChange}
-                className={`pl-10 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 ${
-                  darkMode
-                    ? "bg-gray-700 border-gray-600 text-white"
-                    : "bg-white border-gray-300 text-gray-900"
-                }`}
-              />
+
+              {/* Last Name Input */}
+              <div className="relative w-1/2">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <FaUser
+                    className={`h-4 w-4 ${
+                      darkMode ? "text-gray-400" : "text-gray-500"
+                    }`}
+                  />
+                </div>
+                <input
+                  id="lastName"
+                  name="lastName"
+                  type="text"
+                  required
+                  placeholder="Last Name"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  className={`pl-10 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 ${
+                    darkMode
+                      ? "bg-gray-700 border-gray-600 text-white"
+                      : "bg-white border-gray-300 text-gray-900"
+                  }`}
+                />
+              </div>
             </div>
 
             <div className="relative">
@@ -163,6 +193,29 @@ const Signup = () => {
                 required
                 placeholder="Email Address"
                 value={formData.email}
+                onChange={handleChange}
+                className={`pl-10 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 ${
+                  darkMode
+                    ? "bg-gray-700 border-gray-600 text-white"
+                    : "bg-white border-gray-300 text-gray-900"
+                }`}
+              />
+            </div>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <FaPhone
+                  className={`h-4 w-4 ${
+                    darkMode ? "text-gray-400" : "text-gray-500"
+                  }`}
+                />
+              </div>
+              <input
+                id="phone"
+                name="phone"
+                type="tel"
+                required
+                placeholder="Phone Number"
+                value={formData.phone}
                 onChange={handleChange}
                 className={`pl-10 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 ${
                   darkMode
@@ -320,7 +373,7 @@ const Signup = () => {
         >
           Already have an account?{" "}
           <Link
-            to="/"
+            to="/login"
             className="font-medium text-blue-600 hover:text-blue-500"
           >
             Login
