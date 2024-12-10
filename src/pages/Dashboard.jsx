@@ -13,6 +13,7 @@ import LeaveRequest from "./dashboard/worker/LeaveRequest";
 import WorkerHistory from "./dashboard/worker/WorkerHistory";
 import AddUser from "./dashboard/admin/AddUser";
 import UserManagement from "./dashboard/admin/UserManagement";
+import UserSettings from "./dashboard/UserSettings";
 
 const Dashboard = () => {
   const { darkMode } = useTheme();
@@ -50,7 +51,8 @@ const Dashboard = () => {
           <Route path="/worker/leave-request" element={<LeaveRequest />} />
           <Route path="/worker/history" element={<WorkerHistory />} />
 
-          {/* Management Routes */}
+          {/* Common Routes */}
+          <Route path="/settings" element={<UserSettings />} />
           <Route path="/attendance" element={<AttendanceTracking />} />
           <Route path="/absence/*" element={<AbsenceManagement />}>
             <Route path="leaverequests" element={<LeaveRequests />} />

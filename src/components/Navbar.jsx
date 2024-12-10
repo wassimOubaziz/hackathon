@@ -14,6 +14,7 @@ import {
   FaCalendarPlus,
   FaUserPlus,
   FaUsers,
+  FaCog,
 } from "react-icons/fa";
 import { useTheme } from "../context/ThemeContext";
 import { motion } from "framer-motion";
@@ -95,6 +96,13 @@ const Navbar = ({ role }) => {
       path: "/dashboard/contracts",
       icon: <FaFileContract />,
       allowedRoles: ["ceo", "hr"],
+    },
+    // Settings (available to all roles)
+    {
+      title: "Settings",
+      path: "/dashboard/settings",
+      icon: <FaCog />,
+      allowedRoles: ["ceo", "hr", "worker", "contability"],
     },
   ];
 
