@@ -1,11 +1,64 @@
-import React from "react";
+import React, { useState } from "react";
+import { FaCheck, FaTimes } from "react-icons/fa";
 
 const LeaveRequests = () => {
+  const [showPopup, setShowPopup] = useState(false);
+  const [selectedRequest, setSelectedRequest] = useState(null);
+
+  const handleNameClick = (request) => {
+    setSelectedRequest(request);
+    setShowPopup(true);
+  };
+
+  const closePopup = () => {
+    setShowPopup(false);
+    setSelectedRequest(null);
+  };
+
+  const handleApprove = () => {
+    alert(`Approved request for ${selectedRequest.name}`);
+    closePopup();
+    // Add logic for approving the request
+  };
+
+  const handleReject = () => {
+    alert(`Rejected request for ${selectedRequest.name}`);
+    closePopup();
+    // Add logic for rejecting the request
+  };
+
+  const leaveRequests = [
+    {
+      id: 1,
+      name: "John Doe",
+      leaveType: "Sick Leave",
+      startDate: "2024-12-01",
+      endDate: "2024-12-05",
+      status: "Pending",
+    },
+    {
+      id: 2,
+      name: "Jane Smith",
+      leaveType: "Vacation Leave",
+      startDate: "2024-12-10",
+      endDate: "2024-12-15",
+      status: "Pending",
+    },
+    {
+      id: 3,
+      name: "Mike Johnson",
+      leaveType: "Remote Work",
+      startDate: "2024-12-12",
+      endDate: "2024-12-12",
+      status: "Pending",
+    },
+  ];
+
   return (
     <div>
       <h2 className="text-xl font-bold mb-6">Leave Requests</h2>
-      <div className={`overflow-x-auto shadow rounded-lg`}>
-        <table className={`min-w-full bg-white dark:bg-gray-800`}>
+      <div className="overflow-x-auto shadow rounded-lg">
+        <table className="min-w-full bg-white dark:bg-gray-800">
           <thead>
             <tr className="bg-gray-100 dark:bg-gray-700">
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
@@ -26,48 +79,73 @@ const LeaveRequests = () => {
             </tr>
           </thead>
           <tbody>
-            <tr className="bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-700">
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
-                John Doe
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                Sick Leave
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                2024-12-01
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                2024-12-05
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm">
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-200">
-                  Approved
-                </span>
-              </td>
-            </tr>
-            <tr className="bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-700">
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
-                John Doe
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                Sick Leave
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                2024-12-01
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                2024-12-05
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm">
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-200">
-                  Approved
-                </span>
-              </td>
-            </tr>
-            {/* Add more rows as needed */}
+            {leaveRequests.map((request) => (
+              <tr
+                key={request.id}
+                className="bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-700"
+              >
+                <td
+                  className="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600 dark:text-blue-400 cursor-pointer"
+                  onClick={() => handleNameClick(request)}
+                >
+                  {request.name}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                  {request.leaveType}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                  {request.startDate}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                  {request.endDate}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm">
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-200">
+                    {request.status}
+                  </span>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
+
+      {/* Popup */}
+      {showPopup && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 w-full max-w-sm">
+            <h3 className="text-lg font-bold mb-4 text-gray-900 dark:text-gray-100">
+              Review Request
+            </h3>
+            <p className="text-sm text-gray-700 dark:text-gray-300 mb-4">
+              Do you want to approve the leave request for{" "}
+              <strong>{selectedRequest.name}</strong> from{" "}
+              <strong>{selectedRequest.startDate}</strong> to{" "}
+              <strong>{selectedRequest.endDate}</strong>?
+            </p>
+            <div className="flex justify-end space-x-4">
+              <button
+                onClick={handleApprove}
+                className="px-4 py-2 bg-green-500 text-white text-sm font-semibold rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 dark:focus:ring-green-300"
+              >
+                Approve
+              </button>
+              <button
+                onClick={handleReject}
+                className="px-4 py-2 bg-red-500 text-white text-sm font-semibold rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 dark:focus:ring-red-300"
+              >
+                Reject
+              </button>
+              <button
+                onClick={closePopup}
+                className="px-4 py-2 bg-gray-300 text-gray-700 text-sm font-semibold rounded-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 dark:focus:ring-gray-500"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
