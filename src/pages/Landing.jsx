@@ -10,6 +10,7 @@ import {
   FaChartLine,
   FaFileSignature,
 } from "react-icons/fa";
+import { Link } from "react-router";
 
 const LandingPage = () => {
   const [darkMode, setDarkMode] = React.useState(false);
@@ -243,12 +244,16 @@ const LandingPage = () => {
             >
               {darkMode ? "🌞" : "🌙"}
             </button>
-            <button className="px-4 py-2 rounded-md hover:bg-opacity-90 transition-colors">
-              Login
-            </button>
-            <button className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition-colors">
-              Sign Up
-            </button>
+            <Link to={"/login"} className="text-gray-600 hover:underline">
+              <button className="px-4 py-2 rounded-md hover:bg-opacity-90 transition-colors">
+                Login
+              </button>
+            </Link>
+            <Link to={"/signup"} className="text-gray-600 hover:underline">
+              <button className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition-colors">
+                Sign Up
+              </button>
+            </Link>
           </div>
         </nav>
       </header>
