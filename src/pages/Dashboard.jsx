@@ -14,6 +14,7 @@ import WorkerHistory from "./dashboard/worker/WorkerHistory";
 import AddUser from "./dashboard/admin/AddUser";
 import UserManagement from "./dashboard/admin/UserManagement";
 import UserSettings from "./dashboard/UserSettings";
+import Chatbot from "../components/Chatbot";
 
 const Dashboard = () => {
   const { darkMode } = useTheme();
@@ -75,6 +76,7 @@ const Dashboard = () => {
           />
         </Routes>
       </div>
+      <Chatbot />
     </div>
   );
 };
