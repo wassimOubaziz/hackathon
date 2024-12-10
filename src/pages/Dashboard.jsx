@@ -56,6 +56,8 @@ const Dashboard = () => {
           <Route path="/payroll" element={<PayrollTracking />} />
           <Route path="/accounting" element={<AccountingReports />} />
           <Route path="/contracts" element={<ContractManagement />} />
+          
+          {/* Default Route */}
           <Route
             path="/"
             element={<Navigate to={getDefaultRoute(userRole)} replace />}
