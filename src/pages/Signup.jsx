@@ -48,6 +48,7 @@ const Signup = () => {
       },
       (err) => {
         console.error("Signup error:", err);
+        alert(err.response.data.non_field_errors[0]);
       }
     );
   };

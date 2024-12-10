@@ -14,29 +14,35 @@ const UserManagement = () => {
 
   const roles = [
     { value: "", label: "All Roles" },
-    { value: "hr", label: "HR Manager" },
+    { value: "HR", label: "HR Manager" },
     { value: "accountant", label: "Accountant" },
     { value: "worker", label: "Worker" },
   ];
 
-  useEffect(()=>{
-    axios.get('/hr/worker/', {
-      headers: {
-        'Authorization': 'Token ' + localStorage.getItem('authToken')
-      }
-    }).then((e)=>{
-      setUsers(e.data)
-    })
-  }, [])
+  useEffect(() => {
+    axios
+      .get("/hr/worker/", {
+        headers: {
+          Authorization: "Token " + localStorage.getItem("authToken"),
+        },
+      })
+      .then((e) => {
+        setUsers(e.data);
+      });
+  }, []);
 
   const handleDelete = async (userId) => {
     try {
-      axios.post('/hr/fire_user/', {id: userId},{
-        headers: {
-          'Authorization': 'Token ' + localStorage.getItem('authToken')
+      axios.post(
+        "/hr/fire_user/",
+        { id: userId },
+        {
+          headers: {
+            Authorization: "Token " + localStorage.getItem("authToken"),
+          },
         }
-      })
-      
+      );
+
       setUsers(users.filter((user) => user.id !== userId));
       setDeleteConfirm(null);
     } catch (error) {
@@ -195,7 +201,8 @@ const UserManagement = () => {
                           user?.role
                         )}`}
                       >
-                        {user?.role?.charAt(0)?.toUpperCase() + user?.role.slice(1)}
+                        {user?.role?.charAt(0)?.toUpperCase() +
+                          user?.role.slice(1)}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">

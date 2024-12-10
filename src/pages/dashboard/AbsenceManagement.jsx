@@ -33,14 +33,23 @@ const AbsenceManagement = () => {
     setShowPopup(true);
   };
 
-
-  const handleSave = ()=>{
-    axios.post("/hr/set_min/", {min: minWorkers}, {
-      headers: {
-        'Authorization': 'Token ' + localStorage.getItem('authToken')
+  const handleSave = () => {
+    axios.post(
+      "/hr/set_min/",
+      { min: minWorkers },
+      {
+        headers: {
+          Authorization: "Token " + localStorage.getItem("authToken"),
+        },
       }
-    })
-  }
+    );
+    // make the input field uneditable
+    document.getElementById("min-workers").readOnly = true;
+  };
+  // make that one input field editable
+  const editNumberMinWorkers = () => {
+    document.getElementById("min-workers").readOnly = false;
+  };
 
   return (
     <motion.div
@@ -51,8 +60,7 @@ const AbsenceManagement = () => {
         darkMode ? "bg-gray-900 text-gray-100" : "bg-gray-50 text-gray-900"
       }`}
     >
-      <PathBar title="Absence & Leave Management" backLink="/dashboard" />
-
+      <h1 className="text-2xl font-bold">{"Absence & Leave Management"}</h1>
       {outlet ? (
         <div className="mt-8">
           <Outlet />
@@ -193,6 +201,7 @@ const AbsenceManagement = () => {
               className={`block text-lg font-bold mb-2 ${
                 darkMode ? "text-gray-300" : "text-gray-700"
               }`}
+              value={minWorkers}
             >
               Min number of workers
             </label>
@@ -200,6 +209,8 @@ const AbsenceManagement = () => {
               <input
                 type="number"
                 id="min-workers"
+                // make it uneditable
+                readOnly
                 value={minWorkers}
                 onChange={(e) => setMinWorkers(e.target.value)}
                 className={`flex-grow p-2 text-base rounded-md border ${
@@ -209,7 +220,10 @@ const AbsenceManagement = () => {
                 } focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200`}
                 placeholder="Enter minimum workers"
               />
-              <button className="px-4 py-2 text-sm font-semibold text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200">
+              <button
+                onClick={editNumberMinWorkers}
+                className="px-4 py-2 text-sm font-semibold text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 "
+              >
                 Edit
               </button>
               <button
@@ -218,7 +232,9 @@ const AbsenceManagement = () => {
                     ? "bg-gray-700 text-gray-300 hover:bg-gray-600 focus:ring-gray-500"
                     : "bg-gray-200 text-gray-700 hover:bg-gray-300 focus:ring-gray-400"
                 } focus:outline-none focus:ring-2 transition duration-200`}
-                onClick={()=> {handleSave()}}
+                onClick={() => {
+                  handleSave();
+                }}
               >
                 Save
               </button>

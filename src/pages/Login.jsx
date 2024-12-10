@@ -38,7 +38,8 @@ const Login = () => {
         navigate("/dashboard");
       })
       .catch((err) => {
-        console.error("Login error:", err);
+        console.error("Login error:", err.response.data.non_field_errors[0]);
+        alert(err.response.data.non_field_errors[0]);
       });
   };
 
