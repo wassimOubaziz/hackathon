@@ -9,6 +9,9 @@ import {
   FaSun,
   FaSignOutAlt,
   FaCheck,
+  FaUser,
+  FaHistory,
+  FaCalendarPlus
 } from "react-icons/fa";
 import { useTheme } from "../context/ThemeContext";
 import { motion } from "framer-motion";
@@ -28,6 +31,26 @@ const Navbar = ({ role }) => {
   };
 
   const navItems = [
+    // Worker-specific items
+    {
+      title: "My Profile",
+      path: "/dashboard/worker/profile",
+      icon: <FaUser />,
+      allowedRoles: ["worker"],
+    },
+    {
+      title: "Request Leave",
+      path: "/dashboard/worker/leave-request",
+      icon: <FaCalendarPlus />,
+      allowedRoles: ["worker"],
+    },
+    {
+      title: "My History",
+      path: "/dashboard/worker/history",
+      icon: <FaHistory />,
+      allowedRoles: ["worker"],
+    },
+    // HR and management items
     {
       title: "Attendance Tracking",
       path: "/dashboard/attendance",
