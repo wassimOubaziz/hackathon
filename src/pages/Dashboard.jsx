@@ -11,18 +11,20 @@ import AttendanceTracking from "./dashboard/AttendanceTracking";
 import WorkerProfile from "./dashboard/worker/WorkerProfile";
 import LeaveRequest from "./dashboard/worker/LeaveRequest";
 import WorkerHistory from "./dashboard/worker/WorkerHistory";
+import AddUser from "./dashboard/admin/AddUser";
+import UserManagement from "./dashboard/admin/UserManagement";
 
 const Dashboard = () => {
   const { darkMode } = useTheme();
   // This would typically come from your authentication context
-  const userRole = "worker"; // Changed to worker for testing
+  const userRole = "hr"; // Changed to hr for testing
 
   const getDefaultRoute = (role) => {
     switch (role) {
       case "worker":
         return "/dashboard/worker/profile";
       case "hr":
-        return "/dashboard/absence";
+        return "/dashboard/admin/users";
       default:
         return "/dashboard/attendance";
     }
@@ -37,6 +39,10 @@ const Dashboard = () => {
       <Navbar role={userRole} />
       <div className="ml-64 p-8">
         <Routes>
+          {/* Admin Routes */}
+          <Route path="/admin/add-user" element={<AddUser />} />
+          <Route path="/admin/users" element={<UserManagement />} />
+
           {/* Worker Routes */}
           <Route path="/profile" element={<WorkerProfile />} />
           <Route path="/worker/leave-request" element={<LeaveRequest />} />
@@ -50,6 +56,8 @@ const Dashboard = () => {
           <Route path="/payroll" element={<PayrollTracking />} />
           <Route path="/accounting" element={<AccountingReports />} />
           <Route path="/contracts" element={<ContractManagement />} />
+          
+          {/* Default Route */}
           <Route
             path="/"
             element={<Navigate to={getDefaultRoute(userRole)} replace />}

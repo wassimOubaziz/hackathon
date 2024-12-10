@@ -31,8 +31,6 @@ const Navbar = ({ role }) => {
   };
 
   const navItems = [
-    // My Profile for all roles
-
     // Worker-specific items
     {
       title: "Request Leave",
