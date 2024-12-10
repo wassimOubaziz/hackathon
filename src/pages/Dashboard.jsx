@@ -7,6 +7,8 @@ import PayrollTracking from "./dashboard/PayrollTracking";
 import AccountingReports from "./dashboard/AccountingReports";
 import ContractManagement from "./dashboard/ContractManagement";
 import LeaveRequests from "./dashboard/dashboard-absence/LeaveRequests";
+import AttendanceTracking from "./dashboard/AttendanceTracking";
+
 const Dashboard = () => {
   const { darkMode } = useTheme();
   // This would typically come from your authentication context
@@ -21,6 +23,7 @@ const Dashboard = () => {
       <Navbar role={userRole} />
       <div className="ml-64 p-8">
         <Routes>
+          <Route path="/attendance" element={<AttendanceTracking />} />
           <Route path="/absence/*" element={<AbsenceManagement />}>
             <Route path="leaverequests" element={<LeaveRequests />} />
           </Route>
@@ -29,7 +32,7 @@ const Dashboard = () => {
           <Route path="/contracts" element={<ContractManagement />} />
           <Route
             path="/"
-            element={<Navigate to="/dashboard/absence" replace />}
+            element={<Navigate to="/dashboard/attendance" replace />}
           />
         </Routes>
       </div>

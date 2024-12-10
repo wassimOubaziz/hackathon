@@ -8,6 +8,7 @@ import {
   FaMoon,
   FaSun,
   FaSignOutAlt,
+  FaCheck,
 } from "react-icons/fa";
 import { useTheme } from "../context/ThemeContext";
 import { motion } from "framer-motion";
@@ -27,6 +28,12 @@ const Navbar = ({ role }) => {
   };
 
   const navItems = [
+    {
+      title: "Attendance Tracking",
+      path: "/dashboard/attendance",
+      icon: <FaCheck />,
+      allowedRoles: ["ceo", "hr", "worker", "contability"],
+    },
     {
       title: "Absence & Leave",
       path: "/dashboard/absence",
