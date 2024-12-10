@@ -3,11 +3,12 @@ import { motion } from "framer-motion";
 import { useTheme } from "../context/ThemeContext";
 import { FaGoogle, FaMoon, FaSun, FaUser, FaLock } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import axios from "../axios";
 
 const Login = () => {
   const { darkMode, toggleTheme } = useTheme();
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",
     password: "",
     remember: false,
   });
@@ -23,6 +24,14 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Login attempt:", formData);
+    axios
+      .post("/login/", formData)
+      .then((res) => {
+        console.log("Login response:", res.data);
+      })
+      .catch((err) => {
+        console.error("Login error:", err);
+      });
   };
 
   const InputField = ({ icon: Icon, ...props }) => (
@@ -131,18 +140,18 @@ const Login = () => {
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <FaUser
-                  className={`h-4 w-4 ${
+                  className={`h-5 w-5 ${
                     darkMode ? "text-gray-400" : "text-gray-500"
                   }`}
                 />
               </div>
               <input
-                id="username"
-                name="username"
-                type="text"
+                id="email"
+                name="email"
+                type="email"
                 required
-                placeholder="Username"
-                value={formData.username}
+                placeholder="Email "
+                value={formData.email}
                 onChange={handleChange}
                 className={`pl-10 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 ${
                   darkMode
@@ -155,7 +164,7 @@ const Login = () => {
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <FaLock
-                  className={`h-4 w-4 ${
+                  className={`h-5 w-5 ${
                     darkMode ? "text-gray-400" : "text-gray-500"
                   }`}
                 />
