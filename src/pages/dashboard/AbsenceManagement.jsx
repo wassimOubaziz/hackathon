@@ -1,7 +1,15 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React from "react";
+import { motion } from "framer-motion";
+import { Link } from "react-router";
+import { Outlet } from "react-router-dom";
+import { FaBackspace, FaBackward } from "react-icons/fa";
+import PathBar from "../../components/PathBar";
+import { useLocation } from "react-router-dom";
 
 const AbsenceManagement = () => {
+  const location = useLocation();
+  const isLeaveRequests = location.pathname.includes("/leaverequests");
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -9,16 +17,22 @@ const AbsenceManagement = () => {
       transition={{ duration: 0.5 }}
       className="p-6"
     >
-      <h1 className="text-2xl font-bold mb-6">Absence & Leave Management</h1>
+      <PathBar title="Absence & Leave Management" backLink="/dashboard" />
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Leave Request Card */}
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-          <h2 className="text-lg font-semibold mb-4">Leave Requests</h2>
+          <Link to={"/dashboard/absence/leaverequests"}>
+            <h2 className="text-lg font-semibold mb-4">Leave Requests</h2>
+          </Link>
+
           <div className="space-y-4">
             {/* Sample leave request */}
             <div className="border-l-4 border-blue-500 pl-4">
               <p className="font-medium">John Doe</p>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Vacation Leave</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Vacation Leave
+              </p>
               <p className="text-sm text-gray-500">Dec 20 - Dec 25</p>
             </div>
           </div>
@@ -51,6 +65,9 @@ const AbsenceManagement = () => {
             </div>
           </div>
         </div>
+      </div>
+      <div className="mt-8">
+        <Outlet />
       </div>
     </motion.div>
   );
