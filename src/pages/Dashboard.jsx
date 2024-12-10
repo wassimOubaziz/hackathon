@@ -17,7 +17,7 @@ import UserManagement from "./dashboard/admin/UserManagement";
 const Dashboard = () => {
   const { darkMode } = useTheme();
   // This would typically come from your authentication context
-  const userRole = "ceo"; // Changed to hr for testing
+  const userRole = localStorage.getItem("userRole");
 
   const getDefaultRoute = (role) => {
     switch (role) {

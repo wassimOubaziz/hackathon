@@ -12,7 +12,7 @@ import {
   FaUserAstronaut,
   FaPhone,
 } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Signup = () => {
@@ -24,8 +24,10 @@ const Signup = () => {
     password: "",
     social_securite_number: "",
     role: "",
-    terms: false,
+    phone: "",
+    terms: true,
   });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -38,7 +40,16 @@ const Signup = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Signup attempt:", formData);
-    axios.post("/signup", formData).then();
+    axios.post("/signup", formData).then(
+      (res) => {
+        console.log("Signup response:", res.data);
+        // Redirect to login page
+        navigate("/login");
+      },
+      (err) => {
+        console.error("Signup error:", err);
+      }
+    );
   };
 
   return (
@@ -283,7 +294,7 @@ const Signup = () => {
               </div>
               <input
                 id="socialSecurityNumber"
-                name="socialSecurityNumber"
+                name="social_securite_number"
                 type="number"
                 required
                 placeholder="Social Security Number"

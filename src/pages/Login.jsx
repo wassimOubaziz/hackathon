@@ -4,9 +4,10 @@ import { useTheme } from "../context/ThemeContext";
 import { FaGoogle, FaMoon, FaSun, FaUser, FaLock } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import axios from "../axios";
-
+import { useNavigate } from "react-router-dom";
 const Login = () => {
   const { darkMode, toggleTheme } = useTheme();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -25,9 +26,15 @@ const Login = () => {
     e.preventDefault();
     console.log("Login attempt:", formData);
     axios
-      .post("/login/", formData)
+      .post("/users/login/", formData)
       .then((res) => {
+        const { role, token } = res.data;
         console.log("Login response:", res.data);
+
+        // Save role and token to localStorage
+        localStorage.setItem("userRole", role);
+        localStorage.setItem("authToken", token);
+        navigate("/dashboard");
       })
       .catch((err) => {
         console.error("Login error:", err);

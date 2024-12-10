@@ -30,6 +30,9 @@ const Navbar = ({ role }) => {
   const handleLogout = () => {
     // Add logout logic here
     navigate("/login");
+    // Clear localStorage
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("userRole");
   };
 
   const navItems = [
