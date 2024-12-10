@@ -142,9 +142,9 @@ const Signup = () => {
                 onChange={handleChange}
                 className={`pl-10 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 ${
                   darkMode
-                    ? "bg-gray-700 border-gray-600 text-white"
-                    : "bg-white border-gray-300 text-gray-900"
-                }`}
+                    ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                    : "bg-white border-gray-300 text-gray-900 placeholder-gray-500"
+                } appearance-none`}
               />
             </div>
 
@@ -166,9 +166,9 @@ const Signup = () => {
                 onChange={handleChange}
                 className={`pl-10 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 ${
                   darkMode
-                    ? "bg-gray-700 border-gray-600 text-white"
-                    : "bg-white border-gray-300 text-gray-900"
-                }`}
+                    ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                    : "bg-white border-gray-300 text-gray-900 placeholder-gray-500"
+                } appearance-none`}
               />
             </div>
 
@@ -190,9 +190,9 @@ const Signup = () => {
                 onChange={handleChange}
                 className={`pl-10 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 ${
                   darkMode
-                    ? "bg-gray-700 border-gray-600 text-white"
-                    : "bg-white border-gray-300 text-gray-900"
-                }`}
+                    ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                    : "bg-white border-gray-300 text-gray-900 placeholder-gray-500"
+                } appearance-none`}
               />
             </div>
 
@@ -214,9 +214,9 @@ const Signup = () => {
                 onChange={handleChange}
                 className={`pl-10 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 ${
                   darkMode
-                    ? "bg-gray-700 border-gray-600 text-white"
-                    : "bg-white border-gray-300 text-gray-900"
-                }`}
+                    ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                    : "bg-white border-gray-300 text-gray-900 placeholder-gray-500"
+                } appearance-none`}
               />
             </div>
 
@@ -238,14 +238,13 @@ const Signup = () => {
                 onChange={handleChange}
                 className={`pl-10 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 ${
                   darkMode
-                    ? "bg-gray-700 border-gray-600 text-white"
-                    : "bg-white border-gray-300 text-gray-900"
-                }`}
+                    ? "bg-gray-700 border-gray-600 text-gray-100 placeholder-gray-400"
+                    : "bg-white border-gray-300 text-gray-900 placeholder-gray-500"
+                } appearance-none`}
               />
             </div>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                {/* You can use any other icon here */}
                 <FaUserAstronaut
                   className={`h-4 w-4 ${
                     darkMode ? "text-gray-400" : "text-gray-500"
@@ -260,16 +259,47 @@ const Signup = () => {
                 onChange={handleChange}
                 className={`pl-10 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 ${
                   darkMode
-                    ? "bg-gray-700 border-gray-600 text-white"
+                    ? "bg-gray-700 border-gray-600 text-gray-100"
                     : "bg-white border-gray-300 text-gray-900"
-                }`}
+                } appearance-none bg-transparent`}
+                style={{
+                  WebkitAppearance: "none",
+                  MozAppearance: "none",
+                }}
               >
-                <option value="">Select a Role</option>
-                <option value="CEO">CEO</option>
-                <option value="HR">HR</option>
-                <option value="Comptabiliter">Comptabiliter</option>
-                <option value="Employee">Employee</option>
+                <option value="" className={darkMode ? "bg-gray-700" : "bg-white"}>
+                  Select a Role
+                </option>
+                <option value="CEO" className={darkMode ? "bg-gray-700" : "bg-white"}>
+                  CEO
+                </option>
+                <option value="HR" className={darkMode ? "bg-gray-700" : "bg-white"}>
+                  HR
+                </option>
+                <option
+                  value="Comptabiliter"
+                  className={darkMode ? "bg-gray-700" : "bg-white"}
+                >
+                  Comptabiliter
+                </option>
+                <option value="Employee" className={darkMode ? "bg-gray-700" : "bg-white"}>
+                  Employee
+                </option>
               </select>
+              <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                <svg
+                  className={`h-4 w-4 ${darkMode ? "text-gray-400" : "text-gray-500"}`}
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
             </div>
             <div className="flex items-center">
               <input
