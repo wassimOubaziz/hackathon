@@ -126,28 +126,56 @@ const Signup = () => {
           onSubmit={handleSubmit}
         >
           <div className="space-y-4">
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <FaUser
-                  className={`h-4 w-4 ${
-                    darkMode ? "text-gray-400" : "text-gray-500"
+            <div className="flex space-x-4">
+              {/* First Name Input */}
+              <div className="relative w-1/2">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <FaUser
+                    className={`h-4 w-4 ${
+                      darkMode ? "text-gray-400" : "text-gray-500"
+                    }`}
+                  />
+                </div>
+                <input
+                  id="firstName"
+                  name="first_name"
+                  type="text"
+                  required
+                  placeholder="First Name"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  className={`pl-10 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 ${
+                    darkMode
+                      ? "bg-gray-700 border-gray-600 text-white"
+                      : "bg-white border-gray-300 text-gray-900"
                   }`}
                 />
               </div>
-              <input
-                id="fullName"
-                name="fullName"
-                type="text"
-                required
-                placeholder="Full Name"
-                value={formData.fullName}
-                onChange={handleChange}
-                className={`pl-10 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 ${
-                  darkMode
-                    ? "bg-gray-700 border-gray-600 text-white"
-                    : "bg-white border-gray-300 text-gray-900"
-                }`}
-              />
+
+              {/* Last Name Input */}
+              <div className="relative w-1/2">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <FaUser
+                    className={`h-4 w-4 ${
+                      darkMode ? "text-gray-400" : "text-gray-500"
+                    }`}
+                  />
+                </div>
+                <input
+                  id="lastName"
+                  name="last_name"
+                  type="text"
+                  required
+                  placeholder="Last Name"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  className={`pl-10 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 ${
+                    darkMode
+                      ? "bg-gray-700 border-gray-600 text-white"
+                      : "bg-white border-gray-300 text-gray-900"
+                  }`}
+                />
+              </div>
             </div>
 
             <div className="relative">
@@ -292,13 +320,22 @@ const Signup = () => {
                   MozAppearance: "none",
                 }}
               >
-                <option value="" className={darkMode ? "bg-gray-700" : "bg-white"}>
+                <option
+                  value=""
+                  className={darkMode ? "bg-gray-700" : "bg-white"}
+                >
                   Select a Role
                 </option>
-                <option value="CEO" className={darkMode ? "bg-gray-700" : "bg-white"}>
+                <option
+                  value="CEO"
+                  className={darkMode ? "bg-gray-700" : "bg-white"}
+                >
                   CEO
                 </option>
-                <option value="HR" className={darkMode ? "bg-gray-700" : "bg-white"}>
+                <option
+                  value="HR"
+                  className={darkMode ? "bg-gray-700" : "bg-white"}
+                >
                   HR
                 </option>
                 <option
@@ -307,13 +344,18 @@ const Signup = () => {
                 >
                   Comptabiliter
                 </option>
-                <option value="Employee" className={darkMode ? "bg-gray-700" : "bg-white"}>
+                <option
+                  value="Employee"
+                  className={darkMode ? "bg-gray-700" : "bg-white"}
+                >
                   Employee
                 </option>
               </select>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                 <svg
-                  className={`h-4 w-4 ${darkMode ? "text-gray-400" : "text-gray-500"}`}
+                  className={`h-4 w-4 ${
+                    darkMode ? "text-gray-400" : "text-gray-500"
+                  }`}
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"
                   fill="currentColor"

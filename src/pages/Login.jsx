@@ -38,7 +38,7 @@ const Login = () => {
     <div className="relative">
       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
         <Icon
-          className={`h-5 w-5 ${darkMode ? "text-gray-400" : "text-gray-500"}`}
+          className={`h-4 w-4 ${darkMode ? "text-gray-400" : "text-gray-500"}`}
         />
       </div>
       <input
