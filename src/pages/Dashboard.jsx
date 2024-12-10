@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
 import Navbar from "../components/Navbar";
 import AbsenceManagement from "./dashboard/AbsenceManagement";
@@ -17,8 +17,17 @@ import UserSettings from "./dashboard/UserSettings";
 
 const Dashboard = () => {
   const { darkMode } = useTheme();
+  const navigate = useNavigate();
   // This would typically come from your authentication context
+  const companyName = localStorage.getItem("companyName");
+  console.log("Company Name:", companyName);
   const userRole = localStorage.getItem("userRole");
+  console.log("userRole:", userRole);
+  if (companyName === "" && userRole !== "ceo") {
+    navigate("/login");
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("userRole");
+  }
 
   const getDefaultRoute = (role) => {
     switch (role) {

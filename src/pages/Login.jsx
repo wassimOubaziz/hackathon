@@ -28,11 +28,12 @@ const Login = () => {
     axios
       .post("/users/login/", formData)
       .then((res) => {
-        const { role, token } = res.data;
+        const { role, token, companyName } = res.data;
         console.log("Login response:", res.data);
 
         // Save role and token to localStorage
-        localStorage.setItem("userRole", role);
+        localStorage.setItem("userRole", role.toLowerCase());
+        localStorage.setItem("companyName", companyName);
         localStorage.setItem("authToken", token);
         navigate("/dashboard");
       })
