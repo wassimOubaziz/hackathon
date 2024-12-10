@@ -17,13 +17,15 @@ import UserManagement from "./dashboard/admin/UserManagement";
 const Dashboard = () => {
   const { darkMode } = useTheme();
   // This would typically come from your authentication context
-  const userRole = "hr"; // Changed to hr for testing
+  const userRole = "ceo"; // Changed to hr for testing
 
   const getDefaultRoute = (role) => {
     switch (role) {
       case "worker":
         return "/dashboard/worker/profile";
       case "hr":
+        return "/dashboard/profile";
+      case "ceo":
         return "/dashboard/admin/users";
       default:
         return "/dashboard/attendance";
@@ -44,7 +46,7 @@ const Dashboard = () => {
           <Route path="/admin/users" element={<UserManagement />} />
 
           {/* Worker Routes */}
-          <Route path="/profile" element={<WorkerProfile />} />
+          <Route path="/worker/profile" element={<WorkerProfile />} />
           <Route path="/worker/leave-request" element={<LeaveRequest />} />
           <Route path="/worker/history" element={<WorkerHistory />} />
 
@@ -56,7 +58,7 @@ const Dashboard = () => {
           <Route path="/payroll" element={<PayrollTracking />} />
           <Route path="/accounting" element={<AccountingReports />} />
           <Route path="/contracts" element={<ContractManagement />} />
-          
+
           {/* Default Route */}
           <Route
             path="/"
