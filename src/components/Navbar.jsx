@@ -11,7 +11,7 @@ import {
   FaCheck,
   FaUser,
   FaHistory,
-  FaCalendarPlus
+  FaCalendarPlus,
 } from "react-icons/fa";
 import { useTheme } from "../context/ThemeContext";
 import { motion } from "framer-motion";
@@ -31,13 +31,9 @@ const Navbar = ({ role }) => {
   };
 
   const navItems = [
+    // My Profile for all roles
+
     // Worker-specific items
-    {
-      title: "My Profile",
-      path: "/dashboard/worker/profile",
-      icon: <FaUser />,
-      allowedRoles: ["worker"],
-    },
     {
       title: "Request Leave",
       path: "/dashboard/worker/leave-request",
@@ -55,13 +51,13 @@ const Navbar = ({ role }) => {
       title: "Attendance Tracking",
       path: "/dashboard/attendance",
       icon: <FaCheck />,
-      allowedRoles: ["ceo", "hr", "worker", "contability"],
+      allowedRoles: ["ceo", "hr"],
     },
     {
       title: "Absence & Leave",
       path: "/dashboard/absence",
       icon: <FaUserClock />,
-      allowedRoles: ["ceo", "hr", "worker"],
+      allowedRoles: ["hr"],
     },
     {
       title: "Payroll Tracking",
@@ -92,27 +88,23 @@ const Navbar = ({ role }) => {
       <div className="p-4 flex-grow">
         <div className="flex items-center justify-between mb-8">
           {darkMode ? (
-            <>
-              <motion.img
-                initial={{ rotate: -180 }}
-                animate={{ rotate: 0 }}
-                transition={{ duration: 0.5 }}
-                src="/assets/nexhrd.png"
-                alt="BlueBR"
-                className="h-8 w-auto"
-              />
-            </>
+            <motion.img
+              initial={{ rotate: -180 }}
+              animate={{ rotate: 0 }}
+              transition={{ duration: 0.5 }}
+              src="/assets/nexhrd.png"
+              alt="BlueBR"
+              className="h-8 w-auto"
+            />
           ) : (
-            <>
-              <motion.img
-                initial={{ rotate: -180 }}
-                animate={{ rotate: 0 }}
-                transition={{ duration: 0.5 }}
-                src="/assets/nexhrl.png"
-                alt="BlueBird HR"
-                className="h-8 w-auto"
-              />
-            </>
+            <motion.img
+              initial={{ rotate: -180 }}
+              animate={{ rotate: 0 }}
+              transition={{ duration: 0.5 }}
+              src="/assets/nexhrl.png"
+              alt="BlueBird HR"
+              className="h-8 w-auto"
+            />
           )}
         </div>
 
@@ -142,11 +134,30 @@ const Navbar = ({ role }) => {
       </div>
 
       {/* Bottom section with theme toggle and logout */}
+
       <div
         className={`p-4 border-t ${
           darkMode ? "border-gray-700" : "border-gray-200"
         }`}
       >
+        {" "}
+        <Link
+          to="/dashboard/profile"
+          className={`flex items-center space-x-2 p-2 rounded-lg w-full mb-4 ${
+            isActive("/dashboard/profile")
+              ? "bg-blue-600 text-white"
+              : `${
+                  darkMode
+                    ? "text-gray-100 hover:bg-gray-700"
+                    : "text-gray-600 hover:bg-gray-100"
+                }`
+          }`}
+        >
+          <span className="text-xl">
+            <FaUser />
+          </span>
+          <span>My Profile</span>
+        </Link>
         <div className="flex items-center justify-between mb-4">
           <button
             onClick={toggleTheme}
@@ -160,7 +171,6 @@ const Navbar = ({ role }) => {
             <span>{darkMode ? "Light Mode" : "Dark Mode"}</span>
           </button>
         </div>
-
         <button
           onClick={handleLogout}
           className={`flex items-center space-x-2 p-2 rounded-lg w-full ${

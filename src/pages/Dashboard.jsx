@@ -38,7 +38,7 @@ const Dashboard = () => {
       <div className="ml-64 p-8">
         <Routes>
           {/* Worker Routes */}
-          <Route path="/worker/profile" element={<WorkerProfile />} />
+          <Route path="/profile" element={<WorkerProfile />} />
           <Route path="/worker/leave-request" element={<LeaveRequest />} />
           <Route path="/worker/history" element={<WorkerHistory />} />
 
