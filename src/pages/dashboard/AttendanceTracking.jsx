@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FaCamera, FaCheck, FaTimes } from "react-icons/fa";
 import { Html5QrcodeScanner } from "html5-qrcode";
-import axios from "axios";
+import axios from "../../axios";
 import { useTheme } from "../../context/ThemeContext"; // Assuming you have this hook
 
 const AttendanceTracking = () => {
@@ -40,10 +40,14 @@ const AttendanceTracking = () => {
       setScanResult(decodedText);
 
       // Replace with your actual API endpoint
-      const response = await axios.post("/api/attendance", {
-        qrCode: decodedText,
-        timestamp: new Date().toISOString(),
+      const response = await axios.delete("/hr/accept_qr/", {
+        headers:{
+          'Content-Type': 'application/json',
+          'Authorization': "Token "+ localStorage.getItem('authToken')
+        }
       });
+
+      console.log(response.data)
 
       setScanned(true);
       setError(null);

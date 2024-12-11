@@ -6,7 +6,9 @@ import {
   FaCalendarCheck,
   FaMoneyBillWave,
   FaClock,
+  FaDownload,
 } from "react-icons/fa";
+import axios from "../../../axios";
 
 const WorkerHistory = () => {
   const { darkMode } = useTheme(); // Use the darkMode context
@@ -63,6 +65,26 @@ const WorkerHistory = () => {
         status: "Absent",
       },
     ],
+  };
+
+  const handleDownloadPayroll = async (paymentId) => {
+    try {
+      const response = await axios.get(`/payroll/download/${paymentId}`, {
+        responseType: 'blob'
+      });
+      
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `payroll-${paymentId}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error downloading payroll:', error);
+      alert('Failed to download payroll. Please try again.');
+    }
   };
 
   return (
@@ -200,6 +222,13 @@ const WorkerHistory = () => {
                   >
                     Amount
                   </th>
+                  <th
+                    className={`px-6 py-3 text-left text-xs font-medium uppercase tracking-wider ${
+                      darkMode ? "text-gray-400" : "text-gray-500"
+                    }`}
+                  >
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody
@@ -217,6 +246,18 @@ const WorkerHistory = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       ${payment.amount}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <button
+                        onClick={() => handleDownloadPayroll(payment.id)}
+                        className={`inline-flex items-center px-3 py-1 rounded-md text-sm font-medium ${
+                          darkMode
+                            ? "bg-blue-600 hover:bg-blue-700 text-white"
+                            : "bg-blue-100 hover:bg-blue-200 text-blue-700"
+                        } transition-colors duration-200`}
+                      >
+                        <FaDownload className="mr-1" /> Download
+                      </button>
                     </td>
                   </tr>
                 ))}

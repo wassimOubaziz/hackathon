@@ -17,6 +17,8 @@ import {
   FaCog,
   FaRobot,
   FaBuilding,
+  FaGraduationCap,
+  FaUserMinus,
 } from "react-icons/fa";
 import { useTheme } from "../context/ThemeContext";
 import { motion } from "framer-motion";
@@ -39,6 +41,19 @@ const Navbar = ({ role }) => {
   };
 
   const navItems = [
+    // Analytics Dashboard for HR and CEO
+    {
+      title: "Analytics Dashboard",
+      path: "/dashboard/analytics",
+      icon: <FaChartBar />,
+      allowedRoles: ["ceo", "hr"],
+    },
+    {
+      title: "Retention Analytics",
+      path: "/dashboard/retention",
+      icon: <FaUserMinus />,
+      allowedRoles: ["ceo", "hr"],
+    },
     // Admin-specific items
     {
       title: "Add User",
@@ -66,6 +81,12 @@ const Navbar = ({ role }) => {
       allowedRoles: ["worker"],
     },
     {
+      title: "Training & Development",
+      path: "/dashboard/worker/training",
+      icon: <FaGraduationCap />,
+      allowedRoles: ["worker"],
+    },
+    {
       title: "Request Leave",
       path: "/dashboard/worker/leave-request",
       icon: <FaCalendarPlus />,
@@ -82,13 +103,13 @@ const Navbar = ({ role }) => {
       title: "Attendance Tracking",
       path: "/dashboard/attendance",
       icon: <FaCheck />,
-      allowedRoles: ["ceo", "hr", "worker", "contability"],
+      allowedRoles: ["ceo", "hr", "contability"],
     },
     {
       title: "Absence & Leave",
       path: "/dashboard/absence",
       icon: <FaUserClock />,
-      allowedRoles: ["ceo", "hr", "worker"],
+      allowedRoles: ["ceo", "hr"],
     },
     {
       title: "Payroll Tracking",
@@ -122,8 +143,9 @@ const Navbar = ({ role }) => {
         darkMode ? "bg-gray-800" : "bg-white"
       } shadow-lg flex flex-col`}
     >
-      <div className="p-4 flex-grow">
-        <div className="flex items-center justify-between mb-8">
+      {/* Logo Section */}
+      <div className="p-4">
+        <div className="flex items-center justify-between mb-4">
           {darkMode ? (
             <>
               <motion.img
@@ -148,8 +170,11 @@ const Navbar = ({ role }) => {
             </>
           )}
         </div>
+      </div>
 
-        <div className="space-y-2">
+      {/* Scrollable Navigation Items */}
+      <div className="flex-1 overflow-y-auto">
+        <div className="px-4 space-y-2">
           {navItems.map(
             (item, index) =>
               item.allowedRoles.includes(role) && (
@@ -174,12 +199,13 @@ const Navbar = ({ role }) => {
         </div>
       </div>
 
-      {/* Bottom section with theme toggle and logout */}
+      {/* Fixed Bottom Section */}
       <div
         className={`p-4 border-t ${
           darkMode ? "border-gray-700" : "border-gray-200"
         }`}
       >
+        {/* Theme Toggle */}
         <div className="flex items-center justify-between mb-4">
           <button
             onClick={toggleTheme}
@@ -194,6 +220,7 @@ const Navbar = ({ role }) => {
           </button>
         </div>
 
+        {/* Logout Button */}
         <button
           onClick={handleLogout}
           className={`flex items-center space-x-2 p-2 rounded-lg w-full ${

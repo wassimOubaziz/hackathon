@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Select from "react-select";
 import { useTheme } from "../../../context/ThemeContext";
 import { FaBuilding } from "react-icons/fa";
+import axios from "../../../axios"
 
 const CreateCompany = () => {
   const [companyName, setCompanyName] = useState("");
@@ -94,27 +95,30 @@ const CreateCompany = () => {
   
     // Create data structure with selected policies and their amounts
     const data = {
-      company_name: companyName,
+      company: companyName,
       ...Object.fromEntries(
         Object.entries(policyAmounts).filter(([_, amount]) => amount > 0)
       ),
     };
-
-    console.log(data)
+  
+    console.log(data);
   
     try {
-      const response = await fetch("/hr/company/create/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+      const response = await axios.post("/hr/create_company/", data, {
+        headers: { "Content-Type": "application/json", 
+          "Authorization": "Token "+ localStorage.getItem("authToken") 
+         },
       });
   
-      if (!response.ok) throw new Error("Error creating company");
-  
-      setMessage({ type: "success", text: "Company created successfully!" });
-      setCompanyName("");
-      setSelectedPolicies([]);
-      setPolicyAmounts({});
+      // If the request is successful (status 2xx), handle success
+      if (response.status >= 200 && response.status < 300) {
+        setMessage({ type: "success", text: "Company created successfully!" });
+        setCompanyName("");
+        setSelectedPolicies([]);
+        setPolicyAmounts({});
+      } else {
+        throw new Error("Error creating company");
+      }
     } catch (error) {
       setMessage({ type: "error", text: error.message || "Error creating company" });
     } finally {

@@ -11,11 +11,14 @@ import AttendanceTracking from "./dashboard/AttendanceTracking";
 import WorkerProfile from "./dashboard/worker/WorkerProfile";
 import LeaveRequest from "./dashboard/worker/LeaveRequest";
 import WorkerHistory from "./dashboard/worker/WorkerHistory";
+import WorkerTraining from "./dashboard/worker/WorkerTraining";
 import AddUser from "./dashboard/admin/AddUser";
 import UserManagement from "./dashboard/admin/UserManagement";
 import CreateCompany from "./dashboard/admin/CreateCompany";
 import UserSettings from "./dashboard/UserSettings";
 import Chatbot from "../components/Chatbot";
+import AnalyticsDashboard from "./dashboard/analytics/AnalyticsDashboard";
+import RetentionAnalytics from "./dashboard/analytics/RetentionAnalytics";
 
 const Dashboard = () => {
   const { darkMode } = useTheme();
@@ -37,9 +40,9 @@ const Dashboard = () => {
       case "worker":
         return "/dashboard/worker/profile";
       case "hr":
-        return "/dashboard/profile";
+        return "/dashboard/analytics";
       case "ceo":
-        return "/dashboard/admin/users";
+        return "/dashboard/analytics";
       default:
         return "/dashboard/attendance";
     }
@@ -54,6 +57,10 @@ const Dashboard = () => {
       <Navbar role={userRole} />
       <div className="ml-64 p-8">
         <Routes>
+          {/* Analytics Dashboard for HR and CEO */}
+          <Route path="/analytics" element={<AnalyticsDashboard />} />
+          <Route path="/retention" element={<RetentionAnalytics />} />
+
           {/* Admin Routes */}
           <Route path="/admin/add-user" element={<AddUser />} />
           <Route path="/admin/users" element={<UserManagement />} />
@@ -63,6 +70,7 @@ const Dashboard = () => {
           <Route path="/worker/profile" element={<WorkerProfile />} />
           <Route path="/worker/leave-request" element={<LeaveRequest />} />
           <Route path="/worker/history" element={<WorkerHistory />} />
+          <Route path="/worker/training" element={<WorkerTraining />} />
 
           {/* Common Routes */}
           <Route path="/settings" element={<UserSettings />} />

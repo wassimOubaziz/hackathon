@@ -374,7 +374,7 @@ const LandingPage = () => {
       <footer className={`py-8 ${darkMode ? "bg-gray-800" : "bg-gray-100"}`}>
         <div className="container mx-auto px-6 text-center">
           <p className={`${darkMode ? "text-gray-400" : "text-gray-600"}`}>
-            © 2024 BlueBird HR. All rights reserved.
+            © 2024 NexHR. All rights reserved.
           </p>
         </div>
       </footer>
