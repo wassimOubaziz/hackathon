@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   BarChart,
@@ -10,11 +10,15 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { useTheme } from "../../context/ThemeContext"; // Assuming you have a ThemeContext
+import { saveAs } from "file-saver";
+import axios from "../../axios";
 
 const PayrollTracking = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const { darkMode } = useTheme(); // Accessing dark mode from context
+  const [mockUsers, setMockUsers] = useState()
+  const [downloadUrl, setDownloadUrl] = useState("")
 
   const mockRevenueData = [
     { month: "Jan", revenue: 50000 },
@@ -31,30 +35,101 @@ const PayrollTracking = () => {
     { month: "Dec", revenue: 105000 },
   ];
 
-  const mockUsers = [
-    {
-      id: 1,
-      name: "John Doe",
-      salary: "$3,000",
-      position: "Software Engineer",
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      salary: "$3,200",
-      position: "Product Manager",
-    },
-    { id: 3, name: "Alice Johnson", salary: "$2,800", position: "UX Designer" },
-  ];
+  // const mockUsers = [
+  //   {
+  //     id: 1,
+  //     name: "John Doe",
+  //     salary: "$3,000",
+  //     position: "Software Engineer",
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Jane Smith",
+  //     salary: "$3,200",
+  //     position: "Product Manager",
+  //   },
+  //   { id: 3, name: "Alice Johnson", salary: "$2,800", position: "UX Designer" },
+  // ];
+
+
+  useEffect(()=>{
+    const fetchUsers = async () => {
+      try {
+        const respond = await axios.get("/hr/worker", {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Token ${localStorage.getItem("authToken")}`
+        }})
+        console.log(respond.data)
+        setMockUsers(respond?.data)
+        } catch (error) {
+          console.error(error);
+          }
+          }
+          fetchUsers()
+  }, [])
+
 
   const handleUserClick = (user) => {
     setSelectedUser(user);
     setModalOpen(true);
   };
 
-  const handleGeneratePayslip = () => {
-    alert(`Generating payslip for ${selectedUser.name}`);
-    setModalOpen(false);
+  const handleGeneratePayslip = async () => {
+    try {
+      const response = await axios.post(
+        "/hr/create_payslip/",
+        { id: selectedUser.id },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${localStorage.getItem("authToken")}`,
+          },
+        }
+      );
+  
+      const pdfUrl = `http://10.40.5.231:8000/hr/get_payslip/${response.data.id}/`;
+      const pdfResponse = await axios.get(pdfUrl, {
+        responseType: "blob", // Important to fetch the PDF as a blob
+        headers: {
+          Authorization: `Token ${localStorage.getItem("authToken")}`,
+        },
+      });
+  
+      const fileName = `${selectedUser.first_name}_${selectedUser.last_name}.pdf`;
+      saveAs(pdfResponse.data, fileName);
+      setModalOpen(false);
+    } catch (error) {
+      console.error("Error generating payslip:", error);
+      alert("Failed to generate payslip. Please try again.");
+    }
+  };
+  
+
+  const handleExportUserData = () => {
+    const userBlob = new Blob(
+      [
+        `Name: ${selectedUser.name}\nPosition: ${selectedUser.position}\nSalary: ${selectedUser.salary}`
+      ],
+      { type: "text/plain;charset=utf-8" }
+    );
+    saveAs(userBlob, `${selectedUser.name.replace(/\s+/g, "_")}_data.txt`);
+  };
+
+  const handleExportAllUsersData = () => {
+    const userData = mockUsers
+      .map(
+        (user) =>
+          `Name: ${user?.first_name}\nPosition: ${user.position}\nSalary: ${user.salary}\n`
+      )
+      .join("\n");
+    const userBlob = new Blob([userData], { type: "text/plain;charset=utf-8" });
+    saveAs(userBlob, "All_Users_Data.txt");
+  };
+
+  const openUserListModal = () => {
+    setSelectedUser(null);
+    setModalOpen(true);
   };
 
   return (
@@ -120,7 +195,7 @@ const PayrollTracking = () => {
             className={`mt-6 w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 ${
               darkMode ? "focus:ring-blue-400" : "focus:ring-blue-500"
             }`}
-            onClick={() => setModalOpen(true)}
+            onClick={openUserListModal}
           >
             See All Users
           </button>
@@ -138,16 +213,16 @@ const PayrollTracking = () => {
             <h3 className="text-2xl font-semibold mb-4">User Details</h3>
             <div className="space-y-4">
               <p>
-                <strong>Name:</strong> {selectedUser.name}
+                <strong>Name:</strong> {selectedUser?.first_name} {selectedUser?.last_name}
               </p>
               <p>
-                <strong>Position:</strong> {selectedUser.position}
+                <strong>Position:</strong> {selectedUser?.position}
               </p>
               <p>
-                <strong>Salary:</strong> {selectedUser.salary}
+                <strong>Salary:</strong> {selectedUser?.base_salary}
               </p>
             </div>
-            <div className="mt-6">
+            <div className="mt-6 flex gap-4">
               <button
                 className={`w-full px-4 py-2 text-white bg-green-600 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 ${
                   darkMode ? "focus:ring-green-400" : "focus:ring-green-500"
@@ -157,14 +232,23 @@ const PayrollTracking = () => {
                 Generate Payslip
               </button>
               <button
-                className={`w-full mt-4 px-4 py-2 text-white bg-gray-600 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 ${
-                  darkMode ? "focus:ring-gray-400" : "focus:ring-gray-500"
+                className={`w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 ${
+                  darkMode ? "focus:ring-blue-400" : "focus:ring-blue-500"
                 }`}
-                onClick={() => setModalOpen(false)}
+                onClick={handleExportUserData}
               >
-                Close
+                Export Data
               </button>
             </div>
+            
+            <button
+              className={`w-full mt-4 px-4 py-2 text-white bg-gray-600 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 ${
+                darkMode ? "focus:ring-gray-400" : "focus:ring-gray-500"
+              }`}
+              onClick={() => setModalOpen(false)}
+            >
+              Close
+            </button>
           </div>
         </div>
       )}
@@ -179,18 +263,26 @@ const PayrollTracking = () => {
           >
             <h3 className="text-2xl font-semibold mb-4">User List</h3>
             <ul className="space-y-4">
-              {mockUsers.map((user) => (
+              {mockUsers?.map((user) => (
                 <li
                   key={user.id}
                   className="cursor-pointer text-blue-600 hover:underline"
                   onClick={() => handleUserClick(user)}
                 >
-                  {user.name}
+                  {user?.first_name} {user?.last_name}
                 </li>
               ))}
             </ul>
             <button
-              className={`w-full mt-6 px-4 py-2 text-white bg-gray-600 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 ${
+              className={`w-full mt-6 px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 ${
+                darkMode ? "focus:ring-blue-400" : "focus:ring-blue-500"
+              }`}
+              onClick={handleExportAllUsersData}
+            >
+              Export All Users
+            </button>
+            <button
+              className={`w-full mt-4 px-4 py-2 text-white bg-gray-600 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 ${
                 darkMode ? "focus:ring-gray-400" : "focus:ring-gray-500"
               }`}
               onClick={() => setModalOpen(false)}

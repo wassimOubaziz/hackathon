@@ -36,7 +36,7 @@ const LandingPage = () => {
     {
       icon: FaFileContract,
       title: "Contract & Document Management",
-      description: "Securely store and manage all employee documents.",
+      description: "Securely store and manage all worker documents.",
     },
   ];
 
@@ -44,7 +44,7 @@ const LandingPage = () => {
     {
       title: "Absence and Leave Management",
       description:
-        "Efficiently manage employee absences and leave requests with our comprehensive system.",
+        "Efficiently manage worker absences and leave requests with our comprehensive system.",
       image: "../images/absence.jpg",
       icon: FaCalendarAlt,
       items: [
@@ -62,7 +62,7 @@ const LandingPage = () => {
       icon: FaMoneyBillWave,
       items: [
         "Automatic generation of payslips according to local regulations",
-        "Secure access to payslips via personal employee space",
+        "Secure access to payslips via personal worker space",
         "Visualization of deductions and benefits (bonuses, allowances)",
         "Integration with accounting software for seamless financial management",
       ],

@@ -5,6 +5,35 @@ import { useTheme } from "../../context/ThemeContext"; // Assuming you have this
 const AccountingReports = () => {
   const { darkMode } = useTheme(); // Get darkMode state from the context
 
+  const handleGenerateReport = async () => {
+    try {
+      // Simulate an API call to generate the report
+      const response = await fetch("/api/generate-report", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ reportType: "business" }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to generate report");
+      }
+
+      // Assuming the API returns a Blob (PDF file)
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "Business_Report.pdf";
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error generating report:", error);
+      alert("Failed to generate the report. Please try again later.");
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -132,6 +161,16 @@ const AccountingReports = () => {
           </div>
         </div>
       </div>
+
+      {/* Generate Report Button */}
+      <button
+        className={`mt-6 w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 ${
+          darkMode ? "focus:ring-blue-400" : "focus:ring-blue-500"
+        }`}
+        onClick={handleGenerateReport}
+      >
+        Generate and Download Full Business Report
+      </button>
     </motion.div>
   );
 };

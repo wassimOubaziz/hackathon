@@ -1,42 +1,71 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { FaUserPlus, FaEnvelope, FaUserTag, FaCheck } from "react-icons/fa";
+import { FaUserPlus, FaEnvelope, FaDollarSign, FaUserTag, FaCheck } from "react-icons/fa";
 import { useTheme } from "../../../context/ThemeContext"; // Assuming you have this hook
 
 const AddUser = () => {
   const { darkMode } = useTheme(); // Get darkMode state from the context
   const [formData, setFormData] = useState({
     email: "",
+    baseSalary: "",
+    role: "",
+    roleDescription: "",
     sendInvite: true,
   });
 
   const [status, setStatus] = useState({ type: "", message: "" });
 
-  const handleSubmit = async (e) => {
+  const handleGenerateDescription = async () => {
+    try {
+      // API call to generate role description
+      const response = await fetch("/api/generate-description", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ role: formData.role }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to generate description");
+      }
+
+      const data = await response.json();
+      setFormData((prev) => ({ ...prev, roleDescription: data.description }));
+    } catch (error) {
+      console.error("Error generating description:", error);
+      alert("Failed to generate role description. Please try again.");
+    }
+  };
+
+  const handleSaveWorker = async (e) => {
     e.preventDefault();
     try {
-      // TODO: Replace with actual API call
-      console.log("Adding user:", formData);
-
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      setStatus({
-        type: "success",
-        message: `Invitation sent to ${formData.email}`,
+      // API call to save worker
+      const response = await fetch("/api/save-worker", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
       });
+
+      if (!response.ok) {
+        throw new Error("Failed to save worker");
+      }
+
+      setStatus({ type: "success", message: "Worker successfully added." });
 
       // Reset form
       setFormData({
         email: "",
+        baseSalary: "",
         role: "",
+        roleDescription: "",
         sendInvite: true,
       });
     } catch (error) {
-      setStatus({
-        type: "error",
-        message: "Failed to add user. Please try again.",
-      });
+      setStatus({ type: "error", message: "Failed to add worker. Please try again." });
     }
   };
 
@@ -61,10 +90,10 @@ const AddUser = () => {
             darkMode ? "text-white" : "text-black"
           }`}
         >
-          <FaUserPlus className="mr-2" /> Add New User
+          <FaUserPlus className="mr-2" /> Add New Worker
         </h1>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSaveWorker} className="space-y-6">
           <div
             className={`rounded-xl shadow-lg p-6 ${
               darkMode ? "bg-gray-800" : "bg-white"
@@ -77,8 +106,7 @@ const AddUser = () => {
                   darkMode ? "text-gray-300" : "text-gray-700"
                 } mb-2`}
               >
-                <FaEnvelope className="inline mr-2" />
-                Email Address
+                <FaEnvelope className="inline mr-2" /> Email Address
               </label>
               <input
                 type="email"
@@ -93,6 +121,84 @@ const AddUser = () => {
                 } rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500`}
                 placeholder="user@company.com"
               />
+            </div>
+
+            {/* Base Salary Input */}
+            <div className="mb-6">
+              <label
+                className={`block text-sm font-medium ${
+                  darkMode ? "text-gray-300" : "text-gray-700"
+                } mb-2`}
+              >
+                <FaDollarSign className="inline mr-2" /> Base Salary
+              </label>
+              <input
+                type="number"
+                name="baseSalary"
+                value={formData.baseSalary}
+                onChange={handleChange}
+                required
+                className={`w-full px-3 py-2 border ${
+                  darkMode
+                    ? "border-gray-600 bg-gray-700 text-white"
+                    : "border-gray-300"
+                } rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500`}
+                placeholder="50000"
+              />
+            </div>
+
+            {/* Role Input */}
+            <div className="mb-6">
+              <label
+                className={`block text-sm font-medium ${
+                  darkMode ? "text-gray-300" : "text-gray-700"
+                } mb-2`}
+              >
+                <FaUserTag className="inline mr-2" /> Role
+              </label>
+              <input
+                type="text"
+                name="role"
+                value={formData.role}
+                onChange={handleChange}
+                required
+                className={`w-full px-3 py-2 border ${
+                  darkMode
+                    ? "border-gray-600 bg-gray-700 text-white"
+                    : "border-gray-300"
+                } rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500`}
+                placeholder="Software Engineer"
+              />
+            </div>
+
+            {/* Role Description */}
+            <div className="mb-6">
+              <label
+                className={`block text-sm font-medium ${
+                  darkMode ? "text-gray-300" : "text-gray-700"
+                } mb-2`}
+              >
+                Role Description
+              </label>
+              <textarea
+                name="roleDescription"
+                value={formData.roleDescription}
+                onChange={handleChange}
+                rows="4"
+                className={`w-full px-3 py-2 border ${
+                  darkMode
+                    ? "border-gray-600 bg-gray-700 text-white"
+                    : "border-gray-300"
+                } rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500`}
+                placeholder="Enter role description or generate automatically."
+              />
+              <button
+                type="button"
+                onClick={handleGenerateDescription}
+                className="mt-2 text-sm text-blue-500 hover:underline"
+              >
+                Generate Description
+              </button>
             </div>
 
             {/* Send Invite Checkbox */}
@@ -141,7 +247,7 @@ const AddUser = () => {
               className="w-full flex justify-center items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
               <FaUserPlus className="mr-2" />
-              Add User
+              Save Worker
             </motion.button>
           </div>
         </form>

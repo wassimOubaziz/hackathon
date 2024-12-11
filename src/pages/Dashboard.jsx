@@ -13,6 +13,7 @@ import LeaveRequest from "./dashboard/worker/LeaveRequest";
 import WorkerHistory from "./dashboard/worker/WorkerHistory";
 import AddUser from "./dashboard/admin/AddUser";
 import UserManagement from "./dashboard/admin/UserManagement";
+import CreateCompany from "./dashboard/admin/CreateCompany";
 import UserSettings from "./dashboard/UserSettings";
 import Chatbot from "../components/Chatbot";
 
@@ -22,11 +23,14 @@ const Dashboard = () => {
   // This would typically come from your authentication context
   const companyName = localStorage.getItem("companyName");
   const userRole = localStorage.getItem("userRole");
-  if (!Boolean(companyName) && userRole !== "ceo") {
+  console.log(!Boolean(companyName) && userRole !== "worker")
+  if (!Boolean(companyName) && userRole !== "worker") {
     navigate("/login");
     localStorage.removeItem("authToken");
     localStorage.removeItem("userRole");
   }
+
+  console.log(localStorage.getItem('authToken'), localStorage.getItem('userRole'))
 
   const getDefaultRoute = (role) => {
     switch (role) {
@@ -53,6 +57,7 @@ const Dashboard = () => {
           {/* Admin Routes */}
           <Route path="/admin/add-user" element={<AddUser />} />
           <Route path="/admin/users" element={<UserManagement />} />
+          <Route path="/admin/create-company" element={<CreateCompany />} />
 
           {/* Worker Routes */}
           <Route path="/worker/profile" element={<WorkerProfile />} />

@@ -37,10 +37,10 @@ const Signup = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     console.log("Signup attempt:", formData);
-    axios.post("/users/signup/", formData).then(
+    await axios.post("/users/signup/", formData).then(
       (res) => {
         console.log("Signup response:", res.data);
         // Redirect to login page
@@ -357,10 +357,10 @@ const Signup = () => {
                   Comptabiliter
                 </option>
                 <option
-                  value="Employee"
+                  value="worker"
                   className={darkMode ? "bg-gray-700" : "bg-white"}
                 >
-                  Employee
+                  worker
                 </option>
               </select>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">

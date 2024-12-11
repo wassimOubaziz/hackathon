@@ -22,10 +22,10 @@ const Login = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Login attempt:", formData);
-    axios
+    await axios
       .post("/users/login/", formData)
       .then((res) => {
         const { role, token, companyName } = res.data;

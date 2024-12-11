@@ -27,7 +27,7 @@ const UserManagement = () => {
         },
       })
       .then((e) => {
-        setUsers(e.data);
+        setUsers(e?.data);
       });
   }, []);
 

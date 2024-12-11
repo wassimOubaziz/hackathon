@@ -16,6 +16,7 @@ import {
   FaUsers,
   FaCog,
   FaRobot,
+  FaBuilding,
 } from "react-icons/fa";
 import { useTheme } from "../context/ThemeContext";
 import { motion } from "framer-motion";
@@ -49,6 +50,12 @@ const Navbar = ({ role }) => {
       title: "Manage Users",
       path: "/dashboard/admin/users",
       icon: <FaUsers />,
+      allowedRoles: ["ceo"],
+    },
+    {
+      title: "Create Company",
+      path: "/dashboard/admin/create-company",
+      icon: <FaBuilding />,
       allowedRoles: ["ceo"],
     },
     // Worker-specific items

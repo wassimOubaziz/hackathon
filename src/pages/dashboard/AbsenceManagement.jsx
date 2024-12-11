@@ -6,6 +6,7 @@ import { FaCheck, FaEye, FaTimes } from "react-icons/fa";
 import { useTheme } from "../../context/ThemeContext"; // Assuming you have a ThemeContext
 import PathBar from "../../components/PathBar";
 import axios from "../../axios";
+import { header } from "framer-motion/client";
 
 const AbsenceManagement = () => {
   const location = useLocation();
@@ -19,17 +20,24 @@ const AbsenceManagement = () => {
   const [minWorkers, setMinWorkers] = useState("");
   const [showPopup, setShowPopup] = useState(false);
 
-  const checkAttendance = () => {
+  const checkAttendance = async() => {
+    await axios.post("/hr/check_absance/", {},{
+      headers: {
+        Authorization: "Token " + localStorage.getItem("authToken"),
+      },
+    }).then(e=> setAttendanceData(e.data))
     // Simulate server request
-
-    const dataFromServer = [
-      { name: "John Doe", status: "Absent", date: "2024-12-10" },
-      { name: "Sarah", status: "Absent", date: "2024-12-10" },
-    ]; // Example response
-    setAttendanceData(dataFromServer); // Update state with server data
+    console.log(localStorage.getItem("authToken"))
+    
   };
 
-  const viewAbsences = () => {
+  const viewAbsences = async () => {
+    await axios.post("/hr/view_absance/", {},{
+      headers: {
+        Authorization: "Token " + localStorage.getItem("authToken"),
+      },
+    }).then(e=> setAttendanceData(e.data)) 
+
     setShowPopup(true);
   };
 
@@ -288,7 +296,7 @@ const AbsenceManagement = () => {
                       : "bg-gray-100 text-gray-800"
                   }`}
                 >
-                  <span>{user.name}</span>
+                  <span>{user?.user}</span>
                   <span className="text-sm text-gray-500">{user.date}</span>
                 </div>
               ))}
