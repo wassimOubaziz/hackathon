@@ -109,11 +109,11 @@ const PayrollTracking = () => {
   const handleExportUserData = () => {
     const userBlob = new Blob(
       [
-        `Name: ${selectedUser.name}\nPosition: ${selectedUser.position}\nSalary: ${selectedUser.salary}`
+        `Name: ${selectedUser.first_name}\nPosition: ${selectedUser.position}\nSalary: ${selectedUser.base_salary}`
       ],
       { type: "text/plain;charset=utf-8" }
     );
-    saveAs(userBlob, `${selectedUser.name.replace(/\s+/g, "_")}_data.txt`);
+    saveAs(userBlob, `${selectedUser.first_name.replace(/\s+/g, "_")}_data.txt`);
   };
 
   const handleExportAllUsersData = () => {

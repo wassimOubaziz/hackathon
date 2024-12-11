@@ -18,37 +18,42 @@ const UserManagement = () => {
     { value: "accountant", label: "Accountant" },
     { value: "worker", label: "Worker" },
   ];
-
-  useEffect(() => {
-    axios
-      .get("/hr/worker/", {
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("/hr/worker/", {
         headers: {
           Authorization: "Token " + localStorage.getItem("authToken"),
         },
-      })
-      .then((e) => {
-        setUsers(e?.data);
       });
-  }, []);
-
-  const handleDelete = async (userId) => {
-    try {
-      axios.post(
-        "/hr/fire_user/",
-        { id: userId },
-        {
-          headers: {
-            Authorization: "Token " + localStorage.getItem("authToken"),
-          },
-        }
-      );
-
-      setUsers(users.filter((user) => user.id !== userId));
-      setDeleteConfirm(null);
+      setUsers(response?.data);
     } catch (error) {
-      console.error("Failed to delete user:", error);
+      console.error("Error fetching data: ", error);
     }
   };
+
+  fetchData();
+}, []);
+
+const handleDelete = async (userId) => {
+  try {
+    await axios.post(
+      "/hr/fire_user/",
+      { id: userId },
+      {
+        headers: {
+          Authorization: "Token " + localStorage.getItem("authToken"),
+        },
+      }
+    );
+
+    setUsers(users.filter((user) => user.id !== userId));
+    setDeleteConfirm(null);
+  } catch (error) {
+    console.error("Failed to delete user:", error);
+  }
+};
+
 
   const filteredUsers = users.filter((user) => {
     const matchesSearch = user.email
